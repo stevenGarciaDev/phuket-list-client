@@ -1,0 +1,23 @@
+diff a/front-end/src/services/userService.js b/front-end/src/services/userService.js	(rejected hunks)
+@@ -43,6 +43,21 @@
+ 
+ 
+ 
++
++export async function updatePhotofile(user, photo, jwt) {
++
++
++  const response = await http.put(`${apiEndpoint}/updatePhoto/${user.email}`,
++    {  photo },
++    { 'headers': {'x-auth-token': jwt }
++  });
++  console.log(response); //user._id
++  return response;
++}
++
++
++
++
+ export async function getUserBIO(user) {
+    var returnBIO = "";
+ 
