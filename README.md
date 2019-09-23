@@ -2,7 +2,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This project is the Front End for the Cloud Computing Senior Project class at Cal State University of Long Beach.
 
-The live project can be found here: [https://phuketlist.herokuapp.com/].
+The live project can be found here: [https://phuket-list.herokuapp.com/].
+
+The repo for the API of the site can be found here: [https://github.com/stevenGarciaDev/phuket-list-api].
 
 Clone the project and install the dependencies with npm.
 

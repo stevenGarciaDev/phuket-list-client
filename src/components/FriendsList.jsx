@@ -34,8 +34,9 @@ class FriendsList extends Component {
 
     let frData = [];
     for (let i = 0; i < friends.data.length; i++){
-      let user = await getUserbyEmail(friends.data[i].userEmail);
-      var obj = {'email':user.data.email,'name':user.data.name,'photo':user.data.photo,'status':friends.data[i].status};
+      let user = friends.data[i];
+      console.log("user", user);
+      var obj = {'email': user.userEmail, 'name': user.username, 'photo': '', 'status': user.status};
       frData.push(obj);
     }
     this.setState({friends:frData, filteredFriends: frData, potentialFriends, filteredPotentialFriends: potentialFriends });
