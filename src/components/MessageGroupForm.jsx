@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NewGroupMemberIcon from './NewGroupMemberIcon';
 import { retrieveUserId } from '../services/userService';
 import { getCurrentUser } from '../services/authService';
+import { getGroup } from '../services/messageService';
 
 class MessageGroupForm extends Component {
 
@@ -10,29 +11,52 @@ class MessageGroupForm extends Component {
     this.state = {
       isCreatingGroup: false,
       buttonText: 'Start a new group',
+      groupName: '',
       membersToAdd: [],
       searchResults: [],
       membersNameToAdd: '',
-      errorMessage: null
+      errorMessage: null,
+      successMessage: null
     }
   }
 
-  handleNewGroup = () => {
-    let { isCreatingGroup, buttonText, membersToAdd } = this.state;
+  handleNewGroup = async () => {
+    let { isCreatingGroup, buttonText, membersToAdd, groupName } = this.state;
 
     isCreatingGroup = !isCreatingGroup;
     if (isCreatingGroup) {
-      buttonText = "Close Group";
+      buttonText = "Create Group";
     } else {
-        //this.makeNewGroup(membersToAdd);
-        console.log("about to make a new group");
-        if (membersToAdd.length >= 1) {
-          this.props.onMakeNewGroup(membersToAdd);
+        if (groupName === '') {
+          const errorMessage = 'Must set a unique group name';
+          this.setState({ errorMessage });
+          return;
         }
+
+        // check if the group name is unique
+        const response = await getGroup(groupName);
+        if (response.length !== 0) {
+          const errorMessage = 'Must set a unique group name';
+          this.setState({ errorMessage });
+          return;
+        }
+           
+        if (membersToAdd.length >= 1) {   
+          this.props.onMakeNewGroup(membersToAdd, groupName);
+        } else {
+          const errorMessage = 'Must add members to your group';
+          this.setState({ errorMessage });
+          return;
+        }
+
         buttonText = "Start a new group";
         membersToAdd = [];
     }
-    this.setState({ isCreatingGroup, buttonText, membersToAdd });
+    this.setState({ isCreatingGroup, buttonText, membersToAdd, errorMessage: '' });
+  }
+
+  closeGroup = () => {
+    this.setState({ isCreatingGroup: false, buttonText: 'Start a new group' });
   }
 
   addNewMember = async () => {
@@ -47,6 +71,7 @@ class MessageGroupForm extends Component {
       return;
     }
 
+    // ensure no duplicates
     for (let i = 0; i < membersToAdd.length; i++) {
       const currentMember = membersToAdd[i];
        if (currentMember.name.toLowerCase() === membersNameToAdd.toLowerCase()) {
@@ -82,6 +107,11 @@ class MessageGroupForm extends Component {
     this.setState({ searchResults, membersNameToAdd: nameEntered });
   }
 
+  setGroupName = (e) => {
+    const groupName = e.target.value;
+    this.setState({ groupName });
+  }
+
   removeMemberFromNewGroup = (name) => {
     let membersToAdd = [ ...this.state.membersToAdd ];
     membersToAdd = membersToAdd.filter(m => m.name.toLowerCase() !== name.toLowerCase());
@@ -94,24 +124,37 @@ class MessageGroupForm extends Component {
     return (
       <div className="new-group-container">
         <button onClick={this.handleNewGroup} className="btn btn-success new-group-item">{buttonText}</button>
+        
         { isCreatingGroup &&
-          <div className="new-group-form-container">
-            <input type="text"
-              value={membersNameToAdd}
-              onChange={this.onMemberUpdate}
-              className="add-member-input form-control"
-              placeholder="Member's name"
-              list="memberToAdd"
-            />
-            <button onClick={this.addNewMember} className="btn btn-info">Add</button>
+          <React.Fragment>
+            <button onClick={this.closeGroup} className="btn btn-danger">Cancel Group</button>
 
-            <datalist id="memberToAdd">
-              { searchResults.length > 0 &&
-                searchResults.map(data => <option key={data.userEmail}>{data.username}</option>)
-              }
-            </datalist>
+            <div className="group-info-input">
+              <input type="text"
+                      onChange={this.setGroupName}
+                      className="form-control"
+                      placeholder="Group Name"
+              />
+            </div>
 
-          </div>
+            <div className="new-group-form-container group-info-input">
+              <input type="text"
+                value={membersNameToAdd}
+                onChange={this.onMemberUpdate}
+                className="form-control"
+                placeholder="Member's name"
+                list="memberToAdd"
+              />
+              <button onClick={this.addNewMember} className="btn btn-info btn-md group-info-input">Add Member</button>
+
+              <datalist id="memberToAdd">
+                { searchResults.length > 0 &&
+                  searchResults.map(data => <option key={data.userEmail}>{data.username}</option>)
+                }
+              </datalist>
+
+            </div>
+          </React.Fragment>
         }
         <div>
           {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}

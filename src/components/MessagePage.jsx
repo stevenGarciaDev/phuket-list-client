@@ -37,14 +37,25 @@ class MessagePage extends Component {
     this.setState({ messageGroups: res.data, friendsList: friendsList.data });
   }
 
-  makeNewGroup = async (membersToAdd) => {
-    let messageGroups = [ ...this.state.messageGroups ];
-    const user = getCurrentUser();
-    membersToAdd.push({ id: user._id });
-    const newGroup = await createNewGroup(membersToAdd);
+  makeNewGroup = async (membersToAdd, groupName) => {
+    try {
+      let groupMembersToAdd = [ ...membersToAdd ];
+      let messageGroups = [ ...this.state.messageGroups ];
+      const user = getCurrentUser();
 
-    messageGroups.push(newGroup);
-    this.setState({ messageGroups });
+      groupMembersToAdd.push({ id: user._id });
+      const newGroup = await createNewGroup(groupMembersToAdd, groupName);
+      if (!newGroup) {
+        const error = "A group with that name already exist.";
+        this.setState({ error });
+        return;
+      }
+
+      messageGroups.unshift(newGroup);
+      this.setState({ messageGroups });
+    } catch (ex) {
+      console.log("Unable to make a new group");
+    }
   }
 
   populateMessageFeed = async (currentGroup) => {

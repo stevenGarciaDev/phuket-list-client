@@ -2,12 +2,22 @@ import http from "./httpService";
 
 const apiEndpoint = "/messages";
 
-export async function createNewGroup(members) {
+export async function createNewGroup(members, groupName) {
   try {
-    const response = await http.post(`${apiEndpoint}/newGroup`, { members });
+    const response = await http.post(`${apiEndpoint}/newGroup`, { members, groupName });
     return response.data;
   } catch (ex) {
     console.log("Unable to create new group");
+  }
+}
+
+export async function getGroup(name) {
+  try {
+    const response = await http.get(`${apiEndpoint}/retrieveGroup/${name}`);
+    console.log("get group response", response);
+    return response.data;
+  } catch (ex) {
+    console.log(ex);
   }
 }
 

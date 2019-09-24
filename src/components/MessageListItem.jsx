@@ -25,8 +25,6 @@ class MessageListItem extends Component {
     const { messages } = this.props.group;
     const { group } = this.props;
 
-    console.log("GROUP", group);
-
     return (
       <div
         id={group._id}

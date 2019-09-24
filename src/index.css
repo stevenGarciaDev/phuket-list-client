@@ -960,12 +960,12 @@ Task Group page
   margin-top: 20px;
 }
 
-.new-group-form-container {
-  display: flex;
+.group-info-input {
+  margin: 10px 0px;
 }
 
-.add-member-input {
-  margin-right: 10px;
+.new-group-form-container {
+  display: block;
 }
 
 .new-group-item {

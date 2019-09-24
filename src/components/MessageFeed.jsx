@@ -18,7 +18,6 @@ class MessageFeed extends Component {
 
   render() {
     const { feed } = this.props;
-    console.log("PROPS", this.props);
 
     return (
       <div className="message-feed-container">
@@ -26,6 +25,7 @@ class MessageFeed extends Component {
           { feed.messages &&
             feed.messages.map(data => (
               <Message
+                key={data._id}
                 sender={ this.retrieveUsername(data.sender) }
                 text={data.message}
                 dateCreated={data.dateCreated}
