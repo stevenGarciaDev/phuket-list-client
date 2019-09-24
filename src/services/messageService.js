@@ -11,6 +11,15 @@ export async function createNewGroup(members) {
   }
 }
 
+export async function createPublicGroupChat(members, name) {
+  try {
+    const response = await http.post(`${apiEndpoint}/newMessageGroup`, { members, name });
+    return response.data;
+  } catch (ex) {
+    console.log("Unable to create new pulbic group chat");
+  }
+}
+
 export async function retrieveMessageGroups(user) {
   const response = await http.get(`${apiEndpoint}/retrieveMessageGroups/${user._id}`);
   //console.log("the response is ", response);

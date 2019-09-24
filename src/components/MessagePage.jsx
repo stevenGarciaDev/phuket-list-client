@@ -35,6 +35,7 @@ class MessagePage extends Component {
     }
 
     this.setState({ messageGroups: res.data, friendsList: friendsList.data });
+    
   }
 
   makeNewGroup = async (membersToAdd) => {
@@ -45,6 +46,7 @@ class MessagePage extends Component {
 
     messageGroups.push(newGroup);
     this.setState({ messageGroups });
+    
   }
 
   populateMessageFeed = async (currentGroup) => {

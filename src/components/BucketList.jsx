@@ -13,6 +13,7 @@ import {
 } from "../services/bucketListService";
 import { getCurrentUser } from "../services/authService";
 import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
+import {createPublicGroupChat} from '../services/messageService';
 
 // max length for taskName is 60 char
 class BucketList extends Component {
@@ -45,7 +46,7 @@ class BucketList extends Component {
     const minTaskNameLength = 4;
     const maxTaskNameLength = 50;
     const newTaskName = document.getElementById("new_task").value;
-    if (newTaskName.length === 0) {
+    if (newTaskName.length === 0) { 
       this.setState({ inputError: "Must add a task first" });
       return;
     } else if (newTaskName.length < minTaskNameLength) {
@@ -75,6 +76,15 @@ class BucketList extends Component {
 
       // create a new list item
       const response = findOrCreateTask(user, newTaskName, jwt);
+
+      // create a new message group for that task
+      let members = [];
+     
+      members.push( user._id ); // add current user's id to members list
+ 
+      createPublicGroupChat( members , newTaskName);
+
+
       response.then(result => {
         const listItems = result.data;
         this.setState({ listItems });
