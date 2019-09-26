@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import { getCurrentUser } from '../services/authService';
+import { setReadState } from '../services/messageService';
 
 class Message extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      readerId: ''
-    };
-  }
-
   componentDidMount = async () => {
-    const user = await getCurrentUser();
-    console.log(user);
+    if (this.props.readerid != this.props.senderid ) {
+      console.log("reader is not sender")
+      const msgupdate = await setReadState(this.props.groupId, this.props.msgId);
+    }
   }
 
   render() {
-    //const { name, photo, message, dateCreated } = this.props.feed;
-    //console.log("PROPS", this.props);
-
     const { senderid, readerid, sender, text, dateCreated, isRead } = this.props;
-    //console.log("text is ", text);
-    {console.log(this.props)}
-    {console.log("Senderid: " + senderid)}
-    {console.log("Readerid: " + JSON.stringify(readerid))}
+
     return (
       <div className="message">
         <div className="text-left row msg-header-container">
