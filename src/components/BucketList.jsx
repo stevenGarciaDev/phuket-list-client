@@ -13,7 +13,7 @@ import {
 } from "../services/bucketListService";
 import { getCurrentUser } from "../services/authService";
 import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
-import {createPublicGroupChat } from '../services/messageService';
+import {createPublicGroupChat, getGroup } from '../services/messageService';
 
 // max length for taskName is 60 char
 class BucketList extends Component {
@@ -83,7 +83,7 @@ class BucketList extends Component {
           
       members.push( user._id ); // add current user's id to members list
 
-      createPublicGroupChat( members , newTaskName);
+      createPublicGroupChat( members , newTaskName);// make new group chat
 
 
       response.then(result => {
@@ -100,7 +100,10 @@ class BucketList extends Component {
     const user = getCurrentUser();
     const jwt = localStorage.getItem("token");
 
+    console.log("Itemmm: " ,item.taskName);
+
     const response = updateTask(user, item, newText, jwt);
+    
     response.then(result => {
       const updatedList = result.data;
       this.setState({ listItems: updatedList });
