@@ -1,19 +1,37 @@
 import React, { Component } from 'react';
 import Message from './Message';
 import MessageForm from './MessageForm';
+import { getCurrentUser } from '../services/authService';
 
 class MessageFeed extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      readerId: ''
+    };
+  }
 
-  componentDidMount() {
+  componentDidMount = async () => {
+
     let objDiv = document.querySelector(".MessageFeed");
     objDiv.scrollTop = objDiv.scrollHeight;
-  };
+
+    const user = await getCurrentUser();
+    this.setState({ readerId: user._id });
+    console.log(user._id);
+  }
+
 
   retrieveUsername = (userId) => {
     const { feed } = this.props;
     let user = feed.members.filter(m => m._id === userId);
     user = user[0];
     return user.name;
+  }
+
+  retrieveReader = async () => {
+    const user = await getCurrentUser();
+    return user;
   }
 
   render() {
@@ -26,9 +44,12 @@ class MessageFeed extends Component {
             feed.messages.map(data => (
               <Message
                 key={data._id}
+                readerid={this.state.readerId}
+                senderid={data.sender}
                 sender={ this.retrieveUsername(data.sender) }
                 text={data.message}
                 dateCreated={data.dateCreated}
+
               />
             ))
           }

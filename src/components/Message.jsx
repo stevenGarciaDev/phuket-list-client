@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
+import { getCurrentUser } from '../services/authService';
 
 class Message extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      readerId: ''
+    };
+  }
+
+  componentDidMount = async () => {
+    const user = await getCurrentUser();
+    console.log(user);
+  }
 
   render() {
     //const { name, photo, message, dateCreated } = this.props.feed;
     //console.log("PROPS", this.props);
 
-    const { sender, text, dateCreated } = this.props;
+    const { senderid, readerid, sender, text, dateCreated, isRead } = this.props;
     //console.log("text is ", text);
-
+    {console.log(this.props)}
+    {console.log("Senderid: " + senderid)}
+    {console.log("Readerid: " + JSON.stringify(readerid))}
     return (
       <div className="message">
         <div className="text-left row msg-header-container">
@@ -21,7 +35,11 @@ class Message extends Component {
           <p className="msg-created-at">
             <Moment fromNow>
               {dateCreated}
-           </Moment>
+            </Moment>
+          </p>
+          <p>
+            {( (senderid == readerid) ) ? '' : 
+                ((isRead) ? '' : ('(new)'))}
           </p>
         </div>
 
