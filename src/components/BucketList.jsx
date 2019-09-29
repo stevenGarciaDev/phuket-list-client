@@ -13,7 +13,7 @@ import {
 } from "../services/bucketListService";
 import { getCurrentUser } from "../services/authService";
 import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
-import {createPublicGroupChat, getGroup } from '../services/messageService';
+import {createPublicGroupChat, updateGroupName } from '../services/messageService';
 
 // max length for taskName is 60 char
 class BucketList extends Component {
@@ -103,6 +103,7 @@ class BucketList extends Component {
     console.log("Itemmm: " ,item.taskName);
 
     const response = updateTask(user, item, newText, jwt);
+    updateGroupName(item.taskName, newText);
     
     response.then(result => {
       const updatedList = result.data;

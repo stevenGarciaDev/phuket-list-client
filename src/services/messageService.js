@@ -31,6 +31,16 @@ export async function getGroup(name) {
   }
 }
 
+export async function updateGroupName(name, newName) {
+  try {
+    const response = await http.post(`${apiEndpoint}/updateGroupName`, { name, newName });
+    
+    return response.data;
+  } catch (ex) {
+    console.log(ex);
+  }
+}
+
 export async function retrieveMessageGroups(user) {
   const response = await http.get(`${apiEndpoint}/retrieveMessageGroups/${user._id}`);
   //console.log("the response is ", response);
