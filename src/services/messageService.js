@@ -59,3 +59,8 @@ export async function setReadState(groupId, messageId) {
   const response = await http.post(`${apiEndpoint}/readMessage/${groupId}/${messageId}`);
   return response.data;
 }
+
+export async function getUnread(_id) {
+  const response = await http.get(`${apiEndpoint}/unread/count/${_id}`);
+  return response.data;
+}

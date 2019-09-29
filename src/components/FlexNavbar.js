@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { getUnread } from '../services/messageService';
+import { getCurrentUser } from '../services/authService';
 
 class FlexNavbar extends Component {
 
@@ -8,13 +10,30 @@ class FlexNavbar extends Component {
         this.state = {
             displayMenu: false,
             isConnectCollapsed: false,
-            isAccountCollapsed: false
+            isAccountCollapsed: false,
+            unreadMessages: []
         };
         this.onTabDropdown = this.onTabDropdown.bind(this);
         this.onMenuDropdown = this.onMenuDropdown.bind(this);
         this.hideItem = this.hideItem.bind(this);
     }
-    
+
+    componentDidMount = async () => {
+        try {
+            const user = await getCurrentUser();
+            const unread = await getUnread(user._id);
+            this.setState({unreadMessages: unread});
+        } catch (ex) {
+            console.log("error ", ex)
+        }
+    }
+
+    hasNewMessages = async () => {
+        if (this.state.unreadMessages.count > 0 ) 
+            return true;
+        return false;
+    }
+
     onTabDropdown(name) {
         let otherMenu = (name === 'isConnectCollapsed') ? 'isAccountCollapsed' : 'isConnectCollapsed';
         this.setState({
@@ -76,7 +95,11 @@ class FlexNavbar extends Component {
                                 className="nav-link toggle-bar" 
                                 onClick={() => this.onTabDropdown('isConnectCollapsed')}
                                 >
-                                Connect 
+                                Connect {this.hasNewMessages() ?
+                                    <span className="nav-new-message">( ! )</span>
+                                    :
+                                    ''
+                                 }
                                 <i className={`fas fa-chevron-${isConnectCollapsed ? 'up': 'down'}`}></i>
                             </div>
                             {isConnectCollapsed && 
@@ -88,7 +111,11 @@ class FlexNavbar extends Component {
                                     <NavLink 
                                         className="nav-link dropdown-item" 
                                         onClick={() => this.onCloseTabDropdown()}
-                                        to="/messages">Messages</NavLink>
+                                        to="/messages">Messages {this.hasNewMessages() ?
+                                    <span className="nav-new-message">{this.state.unreadMessages.length}</span>
+                                    :
+                                    ''
+                                 }</NavLink>
                                 </div>
                             }
                         </div>
