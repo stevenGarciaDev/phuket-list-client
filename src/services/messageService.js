@@ -55,8 +55,8 @@ export async function sendMessage(senderId, msg, groupId) {
   return response.data;
 }
 
-export async function setReadState(groupId, messageId) {
-  const response = await http.post(`${apiEndpoint}/readMessage/${groupId}/${messageId}`);
+export async function setReadState(groupId, messageId, userId) {
+  const response = await http.post(`${apiEndpoint}/readMessage/${groupId}/${messageId}/${userId}`);
   return response.data;
 }
 

@@ -29,9 +29,13 @@ class FlexNavbar extends Component {
     }
 
     hasNewMessages = async () => {
-        if (this.state.unreadMessages.count > 0 ) 
+        if (this.state.unreadMessages.count > 0 ){
+            console.log("new messages")
             return true;
-        return false;
+        } else {
+            console.log("no new messages")
+            return false;
+        }
     }
 
     onTabDropdown(name) {
@@ -95,7 +99,7 @@ class FlexNavbar extends Component {
                                 className="nav-link toggle-bar" 
                                 onClick={() => this.onTabDropdown('isConnectCollapsed')}
                                 >
-                                Connect {this.hasNewMessages() ?
+                                Connect {this.state.unreadMessages.length > 0 ?
                                     <span className="nav-new-message">( ! )</span>
                                     :
                                     ''
@@ -111,7 +115,7 @@ class FlexNavbar extends Component {
                                     <NavLink 
                                         className="nav-link dropdown-item" 
                                         onClick={() => this.onCloseTabDropdown()}
-                                        to="/messages">Messages {this.hasNewMessages() ?
+                                        to="/messages">Messages {this.state.unreadMessages.length > 0 ?
                                     <span className="nav-new-message">{this.state.unreadMessages.length}</span>
                                     :
                                     ''

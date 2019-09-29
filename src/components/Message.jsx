@@ -6,8 +6,7 @@ import { setReadState } from '../services/messageService';
 class Message extends Component {
   componentDidMount = async () => {
     if (this.props.readerid != this.props.senderid ) {
-      console.log("reader is not sender")
-      const msgupdate = await setReadState(this.props.groupId, this.props.msgId);
+      const msgupdate = await setReadState(this.props.groupId, this.props.msgId, this.props.readerid);
     }
   }
 
@@ -29,7 +28,7 @@ class Message extends Component {
           </p>
           <p>
             {( (senderid == readerid) ) ? '' : 
-                ((isRead) ? '' : ('(new)'))}
+                ((isRead.includes(readerid)) ? '' : ('(new)'))}
           </p>
         </div>
 
