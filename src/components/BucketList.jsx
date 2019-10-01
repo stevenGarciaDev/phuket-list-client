@@ -79,11 +79,8 @@ class BucketList extends Component {
 
       
       // create a new message group for that task
-      let members = [];
-          
-      members.push( user._id ); // add current user's id to members list
-
-      createPublicGroupChat( members , newTaskName);// make new group chat
+     
+      createPublicGroupChat( user._id , newTaskName);// make new group chat
 
 
       response.then(result => {
@@ -103,7 +100,10 @@ class BucketList extends Component {
     console.log("Itemmm: " ,item.taskName);
 
     const response = updateTask(user, item, newText, jwt);
-    //updateGroupName(item.taskName, newText);
+    //updateGroupName;
+    removeFromChat(item.taskName, user._id);// remove user from group chat
+    createPublicGroupChat( user._id , newText);// make new group chat
+
     
     response.then(result => {
       const updatedList = result.data;
@@ -124,7 +124,7 @@ class BucketList extends Component {
 
       await removeTask(user, item, jwt);
 
-     // removeFromChat(item.taskName, user._id);// remove user from group chat
+      removeFromChat(item.taskName, user._id);// remove user from group chat
       console.log("delte : ", item.taskName);
       console.log("delte : ", user._id);
 
