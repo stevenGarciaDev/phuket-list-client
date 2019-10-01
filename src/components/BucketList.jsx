@@ -13,7 +13,7 @@ import {
 } from "../services/bucketListService";
 import { getCurrentUser } from "../services/authService";
 import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
-import {createPublicGroupChat, updateGroupName } from '../services/messageService';
+import {createPublicGroupChat, updateGroupName, removeFromChat } from '../services/messageService';
 
 // max length for taskName is 60 char
 class BucketList extends Component {
@@ -103,7 +103,7 @@ class BucketList extends Component {
     console.log("Itemmm: " ,item.taskName);
 
     const response = updateTask(user, item, newText, jwt);
-    updateGroupName(item.taskName, newText);
+    //updateGroupName(item.taskName, newText);
     
     response.then(result => {
       const updatedList = result.data;
@@ -123,6 +123,11 @@ class BucketList extends Component {
       const jwt = localStorage.getItem("token");
 
       await removeTask(user, item, jwt);
+
+     // removeFromChat(item.taskName, user._id);// remove user from group chat
+      console.log("delte : ", item.taskName);
+      console.log("delte : ", user._id);
+
         //const listItems = response.data;
     } catch (ex) {
       alert('Unable to delete item.');

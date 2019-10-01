@@ -41,6 +41,19 @@ export async function updateGroupName(name, newName) {
   }
 }
 
+
+export async function removeFromChat(taskName, userID) {
+  try {
+    const response = await http.post(`${apiEndpoint}/removeFromGroup`, { taskName, userID });
+    
+    return response.data;
+  } catch (ex) {
+    console.log(ex);
+  }
+}
+
+
+
 export async function retrieveMessageGroups(user) {
   const response = await http.get(`${apiEndpoint}/retrieveMessageGroups/${user._id}`);
   //console.log("the response is ", response);
