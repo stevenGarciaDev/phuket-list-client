@@ -3,6 +3,7 @@ import SettingDetailInput from './SettingDetailInput';
 import SettingDetailToggle from './SettingDetailToggle';
 import { getCurrentUser } from '../services/authService';
 import { updateSettingDetail, getSettingtDetail } from '../services/userService';
+import PasswordNew from './PasswordNew';
 
 class Settings extends Component {
 
@@ -17,6 +18,7 @@ class Settings extends Component {
     }
   }
 
+
   async componentDidMount() {
     const jwt = localStorage.getItem("token");
     const setInfo = await getSettingtDetail(this.state.user, jwt);
@@ -26,7 +28,6 @@ class Settings extends Component {
 
 
      console.log(this.state);
-
   }
 
   handleUpdate = (detailName, value) => {
@@ -43,7 +44,6 @@ class Settings extends Component {
   render() {
     const { name, email, isPrivate, isActive } = this.state;
 
-
     return (
       <div className="container" id="body-wrapper">
        <h1>Account Settings</h1>
@@ -55,8 +55,6 @@ class Settings extends Component {
           settingProperty="name"
           settingValue={name}
           onUpdate={this.handleUpdate} />
-
-
 
         <SettingDetailInput
           displayName="Email"
@@ -81,6 +79,21 @@ class Settings extends Component {
         />
 
         </table>
+
+        <div className="settings-module">
+          <h2>Security</h2>
+
+          <div className="settings-module password">
+            <h4 className="text-left">Password</h4>
+            <p className="text-left">Choose a strong password and don't reuse it for other accounts.</p>
+
+          <PasswordNew
+            userId={this.state.user._id} />  
+
+
+          </div>
+        </div>
+
       </div>
     );
   }
