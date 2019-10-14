@@ -11,6 +11,9 @@ class PasswordNew extends Component {
 	    	oldPass: "",
 	    	newPass: "",
 	    	confirmPass: "",
+	    	errorOldPass: null,
+	    	errorNewPass: null,
+	    	errorConfirmPass: null,
 	    };
 	}
 
@@ -38,20 +41,35 @@ class PasswordNew extends Component {
 		}
 	}
 
+	validatePass = password => {
+		if (password.length > 4 && password.length < 255) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	handleSubmit = async(e) =>  {
 		try {
 			e.preventDefault();
 
-			if (this.state.newPass != this.state.confirmPass) {
-				alert("Passwords do not match!");
-				e.reset();
+			if (!this.validatePass(this.state.oldPass)) {
+				this.setState({errorOldPass: "Invalid password"});
+			} else if (!this.validatePass(this.state.newPass)) {
+				this.setState({errorNewPass: "Invalid password"});
+			} else if (!this.validatePass(this.state.confirmPass)) {
+				this.setState({errorConfirmPass: "Invalid password"});
 			} else {
-				const response = await newPassword(this.props.userId, this.state.oldPass, this.state.newPass);
-				console.log(response.data);
-				if (response.data) {
-					alert("Password was changed!");
+				this.setState({errorOldPass: null, errorNewPass: null, errorConfirmPass: null});
+				if (this.state.newPass != this.state.confirmPass) {
+					this.setState({errorConfirmPass: "Passwords do not match"})
 				} else {
-					alert("Password could not be changed.");
+					const response = await newPassword(this.props.userId, this.state.oldPass, this.state.newPass);
+					if (response.data) {
+						alert("Password was changed!");
+					} else {
+						alert("Password could not be changed.");
+					}
 				}
 			}
 		} catch (e) {
@@ -72,6 +90,7 @@ class PasswordNew extends Component {
                 	type="password"
                 	onChange={this.inputOldPassword} 
                 	/>
+                {this.state.errorOldPass}
 
               </Form.Group>
 
@@ -85,6 +104,7 @@ class PasswordNew extends Component {
                 	type="password" 
                 	onChange={this.inputNewPassword}
                 	/>
+                {this.state.errorNewPass}
 
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control required
@@ -92,9 +112,9 @@ class PasswordNew extends Component {
                 	type="password"
                 	onChange={this.inputConfirmPassword}
                 	/>
+                {this.state.errorConfirmPass}
 
               </Form.Group>
-
               <Button className="d-flex justify-content-start" variant="warning" type="submit">
                 Change Password
               </Button>
