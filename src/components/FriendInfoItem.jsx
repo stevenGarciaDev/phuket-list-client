@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class FriendInfoItem extends Component {
   // const {email, name, photo,status } = props.user;
@@ -24,8 +25,14 @@ class FriendInfoItem extends Component {
   //   }
   // }
 
+
+  static defaultProps = {
+    isAcceptedFriend: false
+  };
+
   render() {
-    const { user } = this.props;
+    const { user, isAcceptedFriend } = this.props;
+    console.log("*user", user);
 
     return (
       <div className="friend-info-item col-md-6">
@@ -33,7 +40,13 @@ class FriendInfoItem extends Component {
           className="post-module-profile-img"
           src={user.photo || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"}
           alt="Img" />
-        <p className="friend-username">{user.name}</p>
+        { isAcceptedFriend ?
+          <p className="friend-username">
+            <Link to={`/profile/${this.props.user.userid}`}>{user.name}</Link>
+          </p>
+          :
+          <p className="friend-username">{user.name}</p>
+        }
         <button className="btn btn-light" onClick={(e) => this.props.onEditFriendStatus(e, user)}>{user.status ? user.status : 'Add Friend'}</button>
       </div>
     );

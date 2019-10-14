@@ -35,8 +35,7 @@ class FriendsList extends Component {
     let frData = [];
     for (let i = 0; i < friends.data.length; i++){
       let user = friends.data[i];
-      console.log("user", user);
-      var obj = {'email': user.userEmail, 'name': user.username, 'photo': '', 'status': user.status};
+      var obj = {'email': user.userEmail, 'userid': user.userid, 'name': user.username, 'photo': '', 'status': user.status};
       frData.push(obj);
     }
     this.setState({friends:frData, filteredFriends: frData, potentialFriends, filteredPotentialFriends: potentialFriends });
@@ -186,8 +185,9 @@ class FriendsList extends Component {
                 <div className="row">
                 {
                   filteredFriends.map(user => <FriendInfoItem
-                                        key={user._id}
+                                        key={user.userid}
                                         user={user}
+                                        isAcceptedFriend={true}
                                         onEditFriendStatus={this.handleEditFriendStatus} />)
                 }
                 </div>
