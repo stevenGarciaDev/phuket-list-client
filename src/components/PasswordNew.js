@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import Joi from "joi-browser";
+import { newPassword }from '../services/userService';
 
 class PasswordNew extends Component {
 
@@ -14,31 +15,51 @@ class PasswordNew extends Component {
 	}
 
 	inputOldPassword = e => {
-		this.setState({oldPass: e.target.value});
+		try {
+			this.setState({oldPass: e.target.value});
+		} catch (e) {
+			console.log("error: ", e);
+		}
 	}
 
 	inputNewPassword = e => {
-		this.setState({newPass: e.target.value});
+		try {
+			this.setState({newPass: e.target.value});
+		} catch (e) {
+			console.log("error: ", e);
+		}
 	}
 
 	inputConfirmPassword = e => {
-		this.setState({confirmPass: e.target.value});
+		try {
+			this.setState({confirmPass: e.target.value});
+		} catch (e) {
+			console.log("error: ", e);
+		}
 	}
 
-	handleSubmit = e => {
-		e.preventDefault();
+	handleSubmit = async(e) =>  {
+		try {
+			e.preventDefault();
 
-		if (this.state.newPass != this.state.confirmPass) {
-			alert("Passwords do not match!");
-		} else {
-			console.log("Old: " + this.state.oldPass);
-			console.log("New: " + this.state.newPass);
+			if (this.state.newPass != this.state.confirmPass) {
+				alert("Passwords do not match!");
+				e.reset();
+			} else {
+				const response = await newPassword(this.props.userId, this.state.oldPass, this.state.newPass);
+				console.log(response.data);
+				if (response.data) {
+					alert("Password was changed!");
+				} else {
+					alert("Password could not be changed.");
+				}
+			}
+		} catch (e) {
+			console.log("error: ", e);
 		}
 	}
 
 	render() {
-	    const { userId } = this.props;
-
 	    return (
 	      <React.Fragment>
 	        <Form onSubmit={this.handleSubmit}>
