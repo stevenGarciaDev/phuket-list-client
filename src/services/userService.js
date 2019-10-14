@@ -42,6 +42,13 @@ export async function getUserPhotoByID(id) {
   return http.get(`${apiEndpoint}/UserProfilePhoto/${id}`);
 }
 
+export async function deleteUser(id) {
+  // return await http.delete(`deleteAccount/${id}`);
+  return `deleted user, ${id}`;
+}
+
+
+
 export function forgotPassword(user){
   return http.post(`${apiEndpoint}/forgotPassword`,{email: user.email});
 }

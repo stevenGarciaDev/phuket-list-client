@@ -656,6 +656,11 @@ table {
   width:100%;
 }
 
+.table-row {
+  border: 2px solid green;
+  width: 1000px;
+}
+
 td {
   width:33%;
   text-align: left;
@@ -1118,7 +1123,7 @@ Task Group page
     justify-content: flex-end;
     padding-right: 30px;
   }
-  
+
   .header-brand {
     justify-items: flex-start;
   }

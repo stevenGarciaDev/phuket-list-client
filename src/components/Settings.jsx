@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SettingDetailInput from './SettingDetailInput';
 import SettingDetailToggle from './SettingDetailToggle';
+import SettingsActiveAccount from './SettingsActiveAccount';
 import { getCurrentUser } from '../services/authService';
 import { updateSettingDetail, getSettingtDetail } from '../services/userService';
 
@@ -78,6 +79,10 @@ class Settings extends Component {
           settingValue={isActive ? 'Active' : 'NonActive' }
           boolValue = {isActive}
           onUpdate={this.handleUpdate}
+        />
+
+        <SettingsActiveAccount
+          displayName="Permanently Deactive Account"
         />
 
         </table>
