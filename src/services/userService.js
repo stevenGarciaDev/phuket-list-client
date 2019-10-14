@@ -157,3 +157,7 @@ export async function getUserPHOTO(user) {
  });
  return returnPhoto;
 }
+
+export async function newPassword(userId, oldPass, newPass) {
+  return http.put(`${apiEndpoint}/matchPassword`,{userId, oldPass, newPass});
+}

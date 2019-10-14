@@ -638,6 +638,12 @@ Like component
 Settings
 ---------- */
 
+.settings-module {
+  padding: 25px 25px;
+  border: 1px solid #e9ebee;
+  background-color: #fff;
+}
+
 .settings-container {
   margin: 0 auto;
   margin-top: 30px;
@@ -665,6 +671,8 @@ td {
   width:33%;
   text-align: left;
 }
+
+
 /* ---------
 Activity Feed page
 ---------- */
