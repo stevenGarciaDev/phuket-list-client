@@ -43,8 +43,13 @@ export async function getUserPhotoByID(id) {
 }
 
 export async function deleteUser(id) {
-  // return await http.delete(`deleteAccount/${id}`);
-  return `deleted user, ${id}`;
+  try{
+    return await http.delete(`${apiEndpoint}/removeUser/${id}`);
+  }
+  catch(ex){
+    console.log("Could not remove user ");
+  }
+ 
 }
 
 
