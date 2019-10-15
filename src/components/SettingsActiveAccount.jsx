@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Modal from 'react-responsive-modal';
 import { getCurrentUser } from "../services/authService";
 import { deleteUser } from "../services/userService";
+import ModalDeleteAccount from "./ModalDeleteAccount";
 
 class SettingsActiveAccount extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      displayName: this.props.displayName
+      displayName: this.props.displayName,
+      open: false
     }
-    this.onDelete = this.onDelete.bind(this);
+    
   }
 
-  async onDelete() {
-    // on click on confirmation button
-    const result = window.confirm("Are you sure you want to delete your account?");
+  onOpenModal = () => {
+    this.setState({ open: true });
+  };
 
-    if (result) {
-      // get the current user
-      const user = getCurrentUser();
-      // call api to delete the user
-      const userDeleted = await deleteUser(user._id);
-      console.log("userDeleted", userDeleted);
-    }
-  }
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+  
+  // async onDelete() {
+  //   // on click on confirmation button
+  //   const result = window.confirm("Are you sure you want to delete your account?");
+
+  //   if (result) {
+  //     // get the current user
+  //     const user = getCurrentUser();
+  //     // call api to delete the user
+  //     const userDeleted = await deleteUser(user._id);
+  //     console.log("userDeleted", userDeleted);
+  //   }
+  // }
 
   render() {
-    const { displayName } = this.state;
+    const { displayName,open } = this.state;
     return (
       <React.Fragment>
         <tr>
@@ -34,10 +46,14 @@ class SettingsActiveAccount extends Component {
           <td className="settingsValue">Currently Active</td>
           <td className="settings-change-btn">
             <button
-              onClick={this.onDelete}
+              onClick={this.onOpenModal}
               className="btn btn-danger">
               Delete
             </button>
+            <Modal open={open} onClose={this.onCloseModal}>
+          <h2>Confirm Delete account</h2>
+          <ModalDeleteAccount></ModalDeleteAccount>
+        </Modal>
           </td>
         </tr>
       </React.Fragment>
