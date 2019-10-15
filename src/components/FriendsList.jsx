@@ -8,7 +8,7 @@ import {
   acceptFriend,
   removeFriend } from "../services/friendshipService";
 import { getCurrentUser } from '../services/authService';
-import { getUserbyEmail } from '../services/userService';
+import { getUserbyEmail, getUserPrivacy } from '../services/userService';
 
 class FriendsList extends Component {
 
@@ -35,7 +35,9 @@ class FriendsList extends Component {
     let frData = [];
     for (let i = 0; i < friends.data.length; i++){
       let user = friends.data[i];
-      var obj = {'email': user.userEmail, 'userid': user.userid, 'name': user.username, 'photo': '', 'status': user.status};
+      //console.log(user)
+      const userPrivacy = await getUserPrivacy(user.userid); 
+      var obj = {'email': user.userEmail, 'userid': user.userid, 'name': user.username, 'photo': '', 'status': user.status, 'isPrivate': userPrivacy.data.isPrivateProfile};
       frData.push(obj);
     }
     this.setState({friends:frData, filteredFriends: frData, potentialFriends, filteredPotentialFriends: potentialFriends });

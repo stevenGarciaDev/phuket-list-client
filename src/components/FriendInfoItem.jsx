@@ -32,20 +32,26 @@ class FriendInfoItem extends Component {
 
   render() {
     const { user, isAcceptedFriend } = this.props;
-    console.log("*user", user);
 
     return (
       <div className="friend-info-item col-md-6">
-        <img
+        <span>
+          <img
           className="post-module-profile-img"
           src={user.photo || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"}
           alt="Img" />
+          { user.isPrivate ?
+                (<span className="privacy-status-private"><i className="fas fa-lock"></i></span>)
+                :
+                (<span className="privacy-status-public"><i className="fas fa-lock-open"></i></span>)
+          }
+        </span>
         { isAcceptedFriend ?
-          <p className="friend-username">
+          <span className="friend-username">
             <Link to={`/profile/${this.props.user.userid}`}>{user.name}</Link>
-          </p>
+          </span>
           :
-          <p className="friend-username">{user.name}</p>
+          <span className="friend-username">{user.name}</span>
         }
         <button className="btn btn-light" onClick={(e) => this.props.onEditFriendStatus(e, user)}>{user.status ? user.status : 'Add Friend'}</button>
       </div>

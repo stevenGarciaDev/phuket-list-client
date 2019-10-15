@@ -496,6 +496,30 @@ i {
  Friends
 -------- */
 
+.privacy-status-private {
+  background-color: #f17070;
+    color: #fff;
+    padding: 5px 5px;
+    font-size: .7em;
+    font-weight: 500;
+    border-radius: 5px;
+    position: relative;
+    top: -15px;
+    left: -20px;
+}
+
+.privacy-status-public {
+  background-color: #84bb77;
+    color: #fff;
+    padding: 5px 5px;
+    font-size: .7em;
+    font-weight: 500;
+    border-radius: 5px;
+    position: relative;
+    top: -15px;
+    left: -20px;
+}
+
 .segmentBtn-container {
   margin: 30px;
 }

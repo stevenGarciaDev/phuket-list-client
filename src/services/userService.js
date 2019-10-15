@@ -166,3 +166,11 @@ export async function getUserPHOTO(user) {
 export async function newPassword(userId, oldPass, newPass) {
   return http.put(`${apiEndpoint}/matchPassword`,{userId, oldPass, newPass});
 }
+
+export async function getUserPrivacy(userId) {
+  try {
+    return await http.get(`${apiEndpoint}/privacy/${userId}`);
+  } catch (e) {
+    console.log("error: ", e);
+  }
+}
