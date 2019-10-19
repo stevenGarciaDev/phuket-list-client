@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import ActivityFeed from "./ActivityFeed";
+import UserItem from "./UserItem";
 import { getCurrentUser } from "../services/authService";
 import {
 	getListItems,
@@ -107,7 +108,10 @@ class TaskGroup extends Component {
 									<h3>Members</h3>
 									<div className="task-group-members-list">
 											{members.length > 0 && members.map ( item => 
-												<div className="task-group-members-list-item" key={item._id}>{`${item.name}`}</div>
+												<UserItem
+													key={item._id}
+													user={item}
+												/>
 											)}
 									</div>
 								</div>
