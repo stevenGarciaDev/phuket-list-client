@@ -9,7 +9,9 @@ import {
 	findOrCreateTask,
 	getTaskUsers
 } from "../services/bucketListService";
-import { getPublicuser } from "../services/userService";
+import { 
+	getPublicuser,
+	getUserBasic } from "../services/userService";
 
 class TaskGroup extends Component {
 
@@ -53,8 +55,8 @@ class TaskGroup extends Component {
 	    const members = [];
 	    for (var i = 0; i < membersresponse.data.length; i++) {
 	    	var member = membersresponse.data[i];
-	    	const response = await getPublicuser(member.owner);
-	    	members.push(response.data[0]);
+	    	const response = await getUserBasic(member.owner);
+	    	members.push(response.data);
 	    }
 	    
 	    return members;

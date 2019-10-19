@@ -12,13 +12,11 @@ class UserItem extends Component {
   	}
 
   	toggleHover = () => {
-		this.setState({hovering: !this.state.hover})
-		console.log(this.state.hovering);
+		this.setState({hovering: !this.state.hovering})
 	}
 
   	render() {
   		const { user } = this.props;
-
   		return (
 			<React.Fragment>
 				<div className="task-group-members-user-item"
@@ -29,6 +27,9 @@ class UserItem extends Component {
 				</div>
 				<UserCard
 					id={user._id}
+					name={user.name}
+					bio={user.bio}
+					isPrivateProfile={user.isPrivateProfile}
 					hovering={this.state.hovering}
 				/>
 			</React.Fragment>
