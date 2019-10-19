@@ -47,9 +47,16 @@ class TaskGroup extends Component {
 
   	getMembers = async () =>  {
   		// Get members with this task in bucketlist
-		const response = await getTaskUsers(this.state.task_id);
-		const members = response.data.map(member => member);
-		return members;
+		const membersresponse = await getTaskUsers(this.state.task_id);
+	    
+	    const members = [];
+	    for (var i = 0; i < membersresponse.data.length; i++) {
+	    	var member = membersresponse.data[i];
+	    	const response = await getPublicuser(member.owner);
+	    	members.push(response.data[0]);
+	    }
+	    
+	    return members;
   	}
 
   	contains = (arr, key, val) => {
@@ -82,7 +89,7 @@ class TaskGroup extends Component {
 	// }
 
 	render() {
-		const { task_name, task_id, user_hastask, message } = this.state;
+		const { task_name, task_id, user_hastask, message, members } = this.state;
 		return (
 			<React.Fragment>
 				<div className="jumbotron task-group-jumbotron"><h1 className="shadow-text bold-text">{`"${task_name}" Group`}</h1>
@@ -99,9 +106,9 @@ class TaskGroup extends Component {
           						<div className="task-group-members-nav">
 									<h3>Members</h3>
 									<div className="task-group-members-list">
-											{this.state.members.map(function(item, i){
-											return <div className="task-group-members-list-item" key={item._id}>{`${item.name}`}</div>
-										})}
+											{members.length > 0 && members.map ( item => 
+												<div className="task-group-members-list-item" key={item._id}>{`${item.name}`}</div>
+											)}
 									</div>
 								</div>
           					</div>
