@@ -10,8 +10,8 @@ class ImageInput extends Component {
     this.uploadImage = this.uploadImage.bind(this);
   }
 
-  uploadImage() {
-    this.props.onChange();
+  uploadImage(e) {
+    this.props.onFileChange(e);
     const { imageToUpload } = this.state;
     console.log("imageToUpload", !imageToUpload);
     this.setState({ imageToUpload: !imageToUpload });
@@ -36,7 +36,7 @@ class ImageInput extends Component {
           name="image"
           className="input-file"
           accept="image/gif, image/png, image/jpeg"
-          onChange={this.uploadImage} />
+          onChange={(e) => this.uploadImage(e)} />
         <label htmlFor="post-image">
           <i className={fontAwesomeIcon} aria-hidden="true"></i>
             {btnText}

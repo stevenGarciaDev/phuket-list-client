@@ -807,6 +807,29 @@ Activity Feed page
 /* ---------
 Task Group page
 ---------- */
+.task-group-members-user-item-card-container {
+  position: relative;
+}
+
+.task-group-members-user-item-card {
+  position: absolute;
+  z-index: 1;
+  display: inline-block;
+  top: -75px;
+  right: 110%;
+  background-color: #fff;
+  border: 1px solid #CCC;
+  width: 250px;
+  padding-bottom: 15px;
+}
+
+.task-group-members-user-item {
+  padding: 10px 15px;
+  border: 1px solid #CCCC;
+  width: 100%;
+  text-align: left;
+}
+
 .task-group-content {
   max-width: 75rem;
   margin: 0 auto;

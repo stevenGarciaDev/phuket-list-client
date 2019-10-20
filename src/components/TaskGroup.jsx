@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import ActivityFeed from "./ActivityFeed";
+import UserItem from "./UserItem";
 import { getCurrentUser } from "../services/authService";
 import {
 	getListItems,
@@ -8,7 +9,9 @@ import {
 	findOrCreateTask,
 	getTaskUsers
 } from "../services/bucketListService";
-import { getPublicuser } from "../services/userService";
+import { 
+	getPublicuser,
+	getUserBasic } from "../services/userService";
 
 class TaskGroup extends Component {
 
@@ -47,9 +50,16 @@ class TaskGroup extends Component {
 
   	getMembers = async () =>  {
   		// Get members with this task in bucketlist
-		const response = await getTaskUsers(this.state.task_id);
-		const members = response.data.map(member => member);
-		return members;
+		const membersresponse = await getTaskUsers(this.state.task_id);
+	    
+	    const members = [];
+	    for (var i = 0; i < membersresponse.data.length; i++) {
+	    	var member = membersresponse.data[i];
+	    	const response = await getUserBasic(member.owner);
+	    	members.push(response.data);
+	    }
+	    
+	    return members;
   	}
 
   	contains = (arr, key, val) => {
@@ -82,7 +92,7 @@ class TaskGroup extends Component {
 	// }
 
 	render() {
-		const { task_name, task_id, user_hastask, message } = this.state;
+		const { task_name, task_id, user_hastask, message, members } = this.state;
 		return (
 			<React.Fragment>
 				<div className="jumbotron task-group-jumbotron"><h1 className="shadow-text bold-text">{`"${task_name}" Group`}</h1>
@@ -99,9 +109,12 @@ class TaskGroup extends Component {
           						<div className="task-group-members-nav">
 									<h3>Members</h3>
 									<div className="task-group-members-list">
-											{this.state.members.map(function(item, i){
-											return <div className="task-group-members-list-item" key={item._id}>{`${item.name}`}</div>
-										})}
+											{members.length > 0 && members.map ( item => 
+												<UserItem
+													key={item._id}
+													user={item}
+												/>
+											)}
 									</div>
 								</div>
           					</div>
