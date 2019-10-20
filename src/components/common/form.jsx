@@ -52,6 +52,7 @@ class Form extends Component {
   };
 
   handleFileChange = async (event) => {
+    console.log('file changed!!', event);
     const imageFile = event.target.files[0];
     const data = { ...this.state.data };
     data['image'] = imageFile;
@@ -69,7 +70,7 @@ class Form extends Component {
   renderFileInput() {
     return (
       <ImageInput
-        onChange={this.handleFileChange}
+        onFileChange={this.handleFileChange}
       />
     );
   }
