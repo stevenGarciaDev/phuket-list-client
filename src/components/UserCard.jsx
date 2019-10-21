@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class UserCard extends Component {
 	constructor(props) {
 	    super(props);
@@ -8,12 +7,10 @@ class UserCard extends Component {
   	}
 
   	render() {
-  		const { id, name, bio, isPrivateProfile, hovering } = this.props;
+  		const { id, name, bio, isPrivateProfile } = this.props;
 
   		return (
 			<span>
-				{ hovering &&
-					(
 						<div className="task-group-members-user-item-card-container">
 							<div className="task-group-members-user-item-card">
 				                <div className="activity-feed-user-info-card-bg row nopadding">
@@ -36,8 +33,6 @@ class UserCard extends Component {
 				                </div>
 			                </div>
 						</div>
-					)
-				}
 			</span>
 	    );
   	}

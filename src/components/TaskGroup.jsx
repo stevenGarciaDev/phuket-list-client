@@ -9,7 +9,7 @@ import {
 	findOrCreateTask,
 	getTaskUsers
 } from "../services/bucketListService";
-import { 
+import {
 	getPublicuser,
 	getUserBasic } from "../services/userService";
 
@@ -51,14 +51,14 @@ class TaskGroup extends Component {
   	getMembers = async () =>  {
   		// Get members with this task in bucketlist
 		const membersresponse = await getTaskUsers(this.state.task_id);
-	    
+
 	    const members = [];
 	    for (var i = 0; i < membersresponse.data.length; i++) {
 	    	var member = membersresponse.data[i];
 	    	const response = await getUserBasic(member.owner);
 	    	members.push(response.data);
 	    }
-	    
+
 	    return members;
   	}
 
@@ -100,16 +100,16 @@ class TaskGroup extends Component {
 					<h3 className="shadow-text">{`${message}`}</h3>
 				</div>
 				<div className="task-group-content">
-          			<div className="row nopadding">
-          				<div className="task-group-feed col-md-9">
-          					<ActivityFeed taskId={task_id} />
-          				</div>
-          				<div className="task-group-members col-md-3">
-          					<div className="sticky">
-          						<div className="task-group-members-nav">
+	  			<div className="row nopadding">
+	  				<div className="task-group-feed col-md-9">
+	  					<ActivityFeed taskId={task_id} />
+	  				</div>
+          	<div className="task-group-members col-md-3">
+          		<div className="sticky">
+          			<div className="task-group-members-nav">
 									<h3>Members</h3>
 									<div className="task-group-members-list">
-											{members.length > 0 && members.map ( item => 
+											{members.length > 0 && members.map ( item =>
 												<UserItem
 													key={item._id}
 													user={item}
@@ -117,10 +117,10 @@ class TaskGroup extends Component {
 											)}
 									</div>
 								</div>
-          					</div>
-          				</div>
-          			</div>
-          		</div>
+							 </div>
+      			</div>
+      		</div>
+      	</div>
 			</React.Fragment>
 		);
 	}

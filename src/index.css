@@ -815,8 +815,8 @@ Task Group page
   position: absolute;
   z-index: 1;
   display: inline-block;
-  top: -75px;
-  right: 110%;
+  top: -175px;
+  right: 240%;
   background-color: #fff;
   border: 1px solid #CCC;
   width: 250px;
@@ -824,10 +824,7 @@ Task Group page
 }
 
 .task-group-members-user-item {
-  padding: 10px 15px;
-  border: 1px solid #CCCC;
-  width: 100%;
-  text-align: left;
+  padding: 8px;
 }
 
 .task-group-content {
@@ -893,11 +890,10 @@ Task Group page
   padding-top: 20px;
 }
 
-.task-group-members-list-item {
-  padding: 10px 15px;
-  border: 1px solid #CCCC;
-  width: 100%;
-  text-align: left;
+.task-group-members-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .task-group-members-list-item:hover {
