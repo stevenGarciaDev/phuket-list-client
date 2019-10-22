@@ -52,11 +52,21 @@ class Form extends Component {
   };
 
   handleFileChange = async (event) => {
+    console.log(this.state.data,this.state.fileToUpload);
     console.log('file changed!!', event);
-    const imageFile = event.target.files[0];
-    const data = { ...this.state.data };
-    data['image'] = imageFile;
-    this.setState({ data: data, fileToUpload: imageFile.name });
+      if(this.state.fileToUpload == ""){
+        const imageFile = event.target.files[0];
+        const data = { ...this.state.data };
+        data['image'] = imageFile;
+        this.setState({ data: data, fileToUpload: imageFile.name });
+      
+      }
+      else
+      {
+        const data = { ...this.state.data };
+        data['image'] = '';
+        this.setState({ data: data, fileToUpload:''});
+      }
   }
 
   renderButton(label, id="", className="") {
