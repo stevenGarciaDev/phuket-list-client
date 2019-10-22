@@ -56,7 +56,7 @@ class Comment extends Component {
         </div>
 
         <div className="comment-module-content col-md-12">
-          <p className="text-left">{text}</p>
+          <p className="post-comment">{text}</p>
         </div>
 
       </div>

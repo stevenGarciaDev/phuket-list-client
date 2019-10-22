@@ -127,7 +127,7 @@ class Post extends Component {
 
           <div className="post-module-content">
             <div className="row nopadding">
-              <p className="col-md-12 text-left">{text}</p>
+              <p className="post-text">{text}</p>
               <div className="col-md-12">
               { image !== '' && <img alt="post" src={image} className="img-responsive post-img" /> }
               </div>

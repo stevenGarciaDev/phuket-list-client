@@ -1158,6 +1158,26 @@ Task Group page
   color: #17a2b8;
 }
 
+.post-text {
+  width:860px;
+  padding-top:5px;
+  border-width:1px;
+  padding-left:13px;
+  padding-bottom:10px;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.post-comment {
+  width:800px;
+  padding-top:5px;
+  border-width:1px;
+  padding-left:13px;
+  padding-bottom:10px;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
 @media (min-width: 800px) {
 
   #hamburger-menu {

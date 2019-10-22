@@ -33,11 +33,11 @@ class PostForm extends Form {
       const data = await createPost(text, image, taskId, jwt);
       this.props.onNewPost(data);
 
-      this.setState({ data: {text: "", image: ""} })
+      this.setState({ data: {text: "", image: ""} });
 
       //console.log(data);
     } catch (ex) {
-
+      
     }
   };
 
