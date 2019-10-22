@@ -37,9 +37,9 @@ export async function createPost(text, image, taskId, jwt) {
   const endpoint = "https://api.cloudinary.com/v1_1/phuketlist/image/upload";
 
   try {
-    console.log("about to send post");
+    // console.log("about to send post");
     const res = await http.post(endpoint, uploadData);
-    console.log('response is ', res.data.secure_url);
+    // console.log('response is ', res.data.secure_url);
     image = res.data.secure_url;
   } catch (e) {
     console.log(e);
@@ -53,12 +53,12 @@ export async function createPost(text, image, taskId, jwt) {
 }
 
 export async function updateLikeInfo(likesArr, taskId, jwt) {
-  console.log("the likeArr is", likesArr);
+  //console.log("the likeArr is", likesArr);
   const response = await http.post(`${apiEndpoint}/${taskId}/likes`,
     { likesArr },
     { 'headers': {'x-auth-token': jwt }
   });
-  console.log(response);
+  //console.log(response);
   return response;
 }
 
@@ -75,7 +75,7 @@ export function update(post) {
 }
 
 export async function report(taskId, jwt) {
-  console.log("apple beexs");
+  //console.log("apple beexs");
   const response = await http.put(`${apiEndpoint}/reportPost/${taskId}`,
 
   { 'headers': {'x-auth-token': jwt }
