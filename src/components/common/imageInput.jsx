@@ -23,7 +23,7 @@ class ImageInput extends Component {
       imagename = '';
       this.state.imagename = imagename;
     }
-    
+
     const { imageToUpload } = this.state;
     console.log("imageToUpload", !imageToUpload);
     this.setState({ imageToUpload: !imageToUpload });
@@ -42,29 +42,31 @@ class ImageInput extends Component {
 
     return (
       <div> { !imageToUpload
-              ?<React.Fragment>
-              <input
-                id="post-image"
-                type="file"
-                name="image"
-                className="input-file"
-                accept="image/gif, image/png, image/jpeg"
-                onChange={(e) => this.uploadImage(e)} />
-              <label htmlFor="post-image">
-                <i className={fontAwesomeIcon} aria-hidden="true"></i>
-                  {btnText}
-              </label>
+              ?
+              <React.Fragment>
+                <input
+                  id="post-image"
+                  type="file"
+                  name="image"
+                  className="input-file"
+                  accept="image/gif, image/png, image/jpeg"
+                  onChange={(e) => this.uploadImage(e)} />
+                <label htmlFor="post-image">
+                  <i className={fontAwesomeIcon} aria-hidden="true"></i>
+                    {btnText}
+                </label>
             </React.Fragment>
-              :<React.Fragment>
-                <button class = "btn btn-primary" onClick={(e) => this.uploadImage(e)}>
+              :
+              <React.Fragment>
+                <button class="remove-img-btn" onClick={(e) => this.uploadImage(e)}>
                 <label htmlFor="post-image">
                 <i onclick={(e) => this.uploadImage(e)} className={fontAwesomeIcon} aria-hidden="true"></i>
                   {btnText}
                  </label>
                 </button>
-              
+
             </React.Fragment>
-      
+
             }
       </div>
     );

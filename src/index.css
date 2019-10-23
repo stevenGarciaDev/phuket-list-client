@@ -417,7 +417,13 @@ i {
 	outline: -webkit-focus-ring-color auto 5px;
 }
 
-
+.remove-img-btn {
+  background-color: #17a2b8;
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 100%;
+  color: #fff;
+}
 
 .card {
   margin: 10px;
