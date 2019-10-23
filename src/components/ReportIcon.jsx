@@ -21,6 +21,7 @@ class ReportIcon extends Component {
 
   handleReportButton = async (e) => {
     e.preventDefault(); // prevent refresh
+
    this.setState({ // turns of display for this button
     DisplayRep: !this.state.DisplayRep
   });
@@ -64,7 +65,7 @@ class ReportIcon extends Component {
                     <Form >
                       <Form.Group >
 
-                          <Form.Control as="textarea" rows="3"  type="text" />
+                          <Form.Control as="textarea" rows="3"  type="text"  size = 'sm'/>
 
 
                           <div className="profile-btn-container">

@@ -15,7 +15,7 @@ class PostForm extends Form {
 
   schema = {
     text: Joi.string()
-      .max(255)
+      .max(144)
       .required(),
     image: Joi.object().allow(null, '')
   };
