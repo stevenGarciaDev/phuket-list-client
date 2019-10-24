@@ -43,7 +43,7 @@ class BucketList extends Component {
 
   handleAdd = e => {
     e.preventDefault();
-    const minTaskNameLength = 4;
+    const minTaskNameLength = 5;
     const maxTaskNameLength = 50;
     const newTaskName = document.getElementById("new_task").value;
     if (newTaskName.length === 0) {
@@ -57,18 +57,18 @@ class BucketList extends Component {
       return;
     }
 
-    const originalList = this.state.listItems;
+    //const originalList = this.state.listItems;
     // check if already have item in the list
-    for (let item of originalList) {
-      if (item.taskName.toLowerCase() === newTaskName.toLowerCase()) {
-        this.setState({ inputError: "Unable to add duplicate" });
-        return;
-      }
-    }
-    let updatedList = [...this.state.listItems];
-    const newItem = { taskName: newTaskName, isCompleted: false };
-    updatedList.push(newItem);
-    this.setState({ listItems: updatedList });
+    //for (let item of originalList) {
+    //  if (item.taskName.toLowerCase() === newTaskName.toLowerCase()) {
+    //    this.setState({ inputError: "Unable to add duplicate" });
+    //    return;
+    //  }
+    //}
+    //let updatedList = [...this.state.listItems];
+    //const newItem = { taskName: newTaskName, isCompleted: false };
+    //updatedList.push(newItem);
+    //this.setState({ listItems: updatedList });
 
     try {
       const user = getCurrentUser();
@@ -89,7 +89,7 @@ class BucketList extends Component {
       });
     } catch (ex) {
       alert("Unable to add item.");
-      this.setState({ listItems: originalList });
+      //this.setState({ listItems: originalList });
     }
   };
 
@@ -173,7 +173,7 @@ class BucketList extends Component {
     }
     var searchInput = e.target.value;
 
-    console.log("search input is ", searchInput);
+    //console.log("search input is ", searchInput);
 
     this.setState({searchInput: searchInput});
     searchInput = searchInput.toLowerCase(); // Lowercase for uniform search
