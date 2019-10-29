@@ -5,7 +5,6 @@ class ImageInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageToUpload: false,
       imagename: ''
     }
     this.uploadImage = this.uploadImage.bind(this);
@@ -24,13 +23,15 @@ class ImageInput extends Component {
       this.state.imagename = imagename;
     }
 
-    const { imageToUpload } = this.state;
+    const { imageToUpload } = this.props;
     console.log("imageToUpload", !imageToUpload);
-    this.setState({ imageToUpload: !imageToUpload });
+    
+    //this.setState({ imageToUpload: !imageToUpload });
   }
 
   render() {
-    const { imageToUpload,imagename } = this.state;
+    const { imageToUpload } = this.props;
+    const { imagename } = this.state;
     // get the name of the image as text
     let btnText = (imageToUpload) ? imagename : 'Choose an image...';
     let fontAwesomeIcon = "fa";
