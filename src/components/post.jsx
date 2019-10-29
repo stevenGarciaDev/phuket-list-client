@@ -78,6 +78,9 @@ class Post extends Component {
     });
   }
 
+  delPost = () =>{
+    console.log("testing");
+  }
 
   handleReportButton = () => {
     this.setState({
@@ -122,6 +125,9 @@ class Post extends Component {
                     {dateCreated}
                  </Moment>
               </small>
+              <span id="grid" onClick={() => this.delPost()}> 
+                <i className="fa fa-times" ></i>
+              </span> 
             </div>
           </div>
 

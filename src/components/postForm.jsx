@@ -27,7 +27,8 @@ class PostForm extends Form {
 
     try {
       const { text, image } = this.state.data;
-
+      this.state.data.image = "";
+      this.state.data.text = "";
       //this.setState({ data['image']: imageFile.secure_url })
 
       const data = await createPost(text, image, taskId, jwt);

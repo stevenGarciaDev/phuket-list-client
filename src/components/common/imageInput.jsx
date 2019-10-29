@@ -59,12 +59,12 @@ class ImageInput extends Component {
             </React.Fragment>
               :
               <React.Fragment>
-                <button class="remove-img-btn" onClick={(e) => this.uploadImage(e)}>
+                <span id="grid" onClick={(e) => this.uploadImage(e)}>
                 <label htmlFor="post-image">
                 <i onclick={(e) => this.uploadImage(e)} className={fontAwesomeIcon} aria-hidden="true"></i>
                   {btnText}
                  </label>
-                </button>
+                 </span>
 
             </React.Fragment>
 
