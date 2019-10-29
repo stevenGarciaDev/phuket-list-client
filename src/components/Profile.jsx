@@ -9,12 +9,13 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: { image: '' },
+      imageToDisplay: '',
+      imageToUpload: false,
       user: {},
       isEditing: false,
       bio: "",
-      listItems: [],
-      photo: "",
-      uploadedPhoto: ""
+      listItems: []
     }
   }
 
@@ -25,8 +26,7 @@ class Profile extends Component {
     const response = await getListItems(currentUser, jwt);
     const listItems = response.data[0].listItems;
 
-    //console.log("current user's photo is ", user.data.photo);
-    this.setState({ user: user.data, photo: user.data.photo, bio: user.data.bio, listItems: listItems });
+    this.setState({ user: user.data, imageToDisplay: user.data.photo, bio: user.data.bio, listItems: listItems });
   }
 
   toggleEdit = () => {
@@ -37,20 +37,19 @@ class Profile extends Component {
   handleFileSubmit = async (e) => {
     e.preventDefault();
     const jwt = localStorage.getItem("token");
-    const { uploadedPhoto, user } = this.state;
+    const { user } = this.state;
+    const { image } = this.state.data;
 
-    console.log("@current user's photo is ", user.photo);
-    if (uploadedPhoto !== "") {
-      const photoResponse = await uploadNewProfileImage(uploadedPhoto, jwt);
-      this.setState({ photo: photoResponse});
+    // console.log("@current user's photo is ", user.photo);
+    if (image !== "") {
+      const photoResponse = await uploadNewProfileImage(image, jwt);
+      this.setState({ imageToDisplay: photoResponse, imageToUpload: false });
       this.updateUserProfileImage(photoResponse, jwt);
     }
   }
 
   updateUserProfileImage = async (photo, jwt) => {
-    console.log(`&Uploading ${photo}...`);
     const res = await updateProfileImage(photo, jwt);
-    console.log("response is ...", res);
   }
 
   handleBioChange = (e) => {
@@ -68,8 +67,20 @@ class Profile extends Component {
   }
 
   handleFileChange = async (event) => {
-    const imageFile = event.target.files[0];
-    this.setState({ uploadedPhoto: imageFile });
+    if (!this.state.imageToUpload) {
+      const imageFile = event.target.files[0];
+      const data = { ...this.state.data };
+      data['image'] = imageFile;
+      console.log("imageToUpload", !this.state.imageToUpload);
+      this.setState({ data: data, imageToUpload: true });
+    }
+    else
+    {
+      const data = { ...this.state.data };
+      data['image'] = '';
+      console.log("imageToUpload", !this.state.imageToUpload);
+      this.setState({ data: data, imageToUpload: false});
+    }
   }
 
   displayEditOption = () => {
@@ -114,8 +125,8 @@ class Profile extends Component {
   }
 
   render() {
-    const { listItems, photo } = this.state;
-    //console.log('user photo is', user.photo);
+    const { listItems, imageToDisplay, imageToUpload } = this.state;
+    const { image: photo } = this.state.data;
     console.log(listItems);
 
     return (
@@ -126,7 +137,7 @@ class Profile extends Component {
             <img
               alt="profile"
               className="profile-image"
-              src={photo || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"} />
+              src={imageToDisplay || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"} />
           </div>
 
           <div className="col-md-8 col-md-pull-4">
@@ -149,7 +160,9 @@ class Profile extends Component {
             <form onSubmit={(e) => {
               this.handleFileSubmit(e);
             }}>
-              <ImageInput onChange={(e) => this.handleFileChange(e)} />
+              <ImageInput
+                onFileChange={(e) => this.handleFileChange(e)}
+                imageToUpload={imageToUpload} />
               <button className="btn btn-info btn-block" type="submit">Update Profile Image</button>
             </form>
           </div>

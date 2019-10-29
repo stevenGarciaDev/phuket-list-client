@@ -49,7 +49,7 @@ export async function deleteUser(id) {
   catch(ex){
     console.log("Could not remove user ");
   }
- 
+
 }
 
 

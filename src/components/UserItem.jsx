@@ -16,7 +16,12 @@ class UserItem extends Component {
 
   render() {
   	const { user } = this.props;
+		console.log("user", user);
 		const { hovering } = this.state;
+
+		// console.log("user icon ? ", user.photo !== undefined);
+		// console.log("user.photo", user.photo);
+
 		return (
 			<React.Fragment>
 				<div className="task-group-members-user-item"

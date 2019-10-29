@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import ReactDOM from 'react-dom';
+import Modal from 'react-responsive-modal';
+import { Form, Button } from 'react-bootstrap';
 class OptionsToolbar extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+  onOpenModal = () => {
+    this.setState({ open: true });
+  };
   displayOptions = () => {
     const { isEditing, item } = this.props;
 
@@ -58,8 +72,17 @@ class OptionsToolbar extends Component {
           <i className="far fa-trash-alt fa-2x"
              aria-hidden="true"
              title={"delete-" + item.taskName}
-             onClick={() => this.props.onDelete(item )}></i>
+             onClick={() => this.onOpenModal()}></i>
         </div>
+        <Modal open={this.state.open} onClose={this.onCloseModal}>
+          <h2>Confirm Delete Task</h2>
+          <p>Are you sure you wanna delete task?</p>
+          <Form onSubmit={this.handleSubmit}>
+          <Button className="d-flex justify-content-start" variant="warning" type="submit" onClick={() => this.props.onDelete(item )}>
+                Confirm
+              </Button>
+          </Form>
+        </Modal>
       </React.Fragment>
     );
   }

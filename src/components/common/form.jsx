@@ -7,7 +7,8 @@ class Form extends Component {
   state = {
     data: {},
     errors: {},
-    fileToUpload: ''
+    fileToUpload: '',
+    imageToUpload: false
   };
 
   validate = () => {
@@ -58,14 +59,13 @@ class Form extends Component {
         const imageFile = event.target.files[0];
         const data = { ...this.state.data };
         data['image'] = imageFile;
-        this.setState({ data: data, fileToUpload: imageFile.name });
-      
+        this.setState({ data: data, fileToUpload: imageFile.name, imageToUpload: true });
       }
       else
       {
         const data = { ...this.state.data };
         data['image'] = '';
-        this.setState({ data: data, fileToUpload:''});
+        this.setState({ data: data, fileToUpload:'', imageToUpload: false });
       }
   }
 
@@ -81,6 +81,7 @@ class Form extends Component {
     return (
       <ImageInput
         onFileChange={this.handleFileChange}
+        imageToUpload={this.state.imageToUpload}
       />
     );
   }
