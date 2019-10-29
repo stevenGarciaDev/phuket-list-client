@@ -107,7 +107,7 @@ class Profile extends Component {
   displayUserBio = () => {
     const { bio, isEditing } = this.state;
     if (isEditing) {
-      return <div><textarea value={bio} onChange={this.handleBioChange}/></div>;
+      return <div><textarea name = "noResize" rows="3" cols="90" maxlength = {255} value={bio} onChange={this.handleBioChange}/></div>;
     } else {
       return <p className="card-text">{bio || 'No bio available'}</p>;
     }
@@ -131,7 +131,8 @@ class Profile extends Component {
 
           <div className="col-md-8 col-md-pull-4">
             <div className="card text-left">
-              <div className="card-header">
+       
+              <div name = "cardHeaderColor" className="card-header" >
                 About Me
               </div>
               <div className="card-body">
@@ -154,11 +155,11 @@ class Profile extends Component {
           </div>
 
           <div className="col-md-8">
-            <div className="card text-left">
-              <div className="card-header">
+            <div  className="card text-left">
+              <div name = "cardHeaderColor" className="card-header">
                 My Bucket List
               </div>
-              <div className="card-body">
+              <div  className="card-body">
                 <p className="card-text">
                   {
                     listItems.length > 0 ?

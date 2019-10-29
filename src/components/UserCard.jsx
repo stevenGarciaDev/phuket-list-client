@@ -20,12 +20,12 @@ class UserCard extends Component {
 				                    <img alt="default profile" src="https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg" className="activity-feed-user-info-card-avatar" />
 				                    <p className="activity-feed-user-info-card-name">{`${name}`}</p>
 				                </div>
-				                <div className="activity-feed-user-info-card-bio text-center row">
+				                <div className="activity-feed-user-info-card-bio">
 				                    { isPrivateProfile ?
-				                    	(<small><i className="fa fa-lock"></i>{` User's profile is private...`}</small>)
+				                    	(<small ><i className="fa fa-lock"></i>{` User's profile is private...`}</small>)
 				                    	:
 				                    	( bio.length > 0 ?
-				                    		(<small>{`${bio}`}</small>)
+				                    		(<small >{bio}</small>)
 				                    		:
 				                    		(<small>{`User does not have a bio...`}</small>)
 				                    	)
