@@ -423,13 +423,14 @@ i {
 	outline: -webkit-focus-ring-color auto 5px;
 }
 
-.remove-img-btn {
+.remove-img-label {
   background-color: #17a2b8;
   border-radius: 5px;
   padding: 5px 10px;
   width: 100%;
   color: #fff;
 }
+
 .remove-comment-btn {
   border-radius: 5px;
   padding: 5px 10px;
@@ -452,13 +453,13 @@ i {
 }
 
 div[name = cardHeaderColor]{
- 
+
   background-color: #17a2b8;
   width: 100%;
 }
 
 div[name = cardBodyColor]{
- 
+
   background-color: white;
   border-color: white;
   border-style: solid;
@@ -773,7 +774,7 @@ Activity Feed page
 .activity-feed-user-info-card-body {
   padding: 5px 15px;
   margin: 0px 0px !important;
-  
+
 }
 
 .activity-feed-user-info-card-avatar {
@@ -790,7 +791,7 @@ Activity Feed page
 .activity-feed-user-info-card-name {
   margin-left: 15px;
 
-  
+
 }
 
 .activity-feed-user-info-card-bio {
@@ -1122,7 +1123,7 @@ Task Group page
 
 .public-profile-basic {
   max-width: 75rem;
-  
+
   padding: 25px !important;
   background-color: #f6f6f6;
 }
@@ -1233,7 +1234,7 @@ small{
   word-break:normal;
   width:250px;
   text-align: left;
-  
+
 }
 
 textarea[name=noResize] {

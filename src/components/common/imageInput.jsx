@@ -25,7 +25,7 @@ class ImageInput extends Component {
 
     const { imageToUpload } = this.props;
     console.log("imageToUpload", !imageToUpload);
-    
+
     //this.setState({ imageToUpload: !imageToUpload });
   }
 
@@ -60,7 +60,7 @@ class ImageInput extends Component {
               :
               <React.Fragment>
                 <span id="grid" onClick={(e) => this.uploadImage(e)}>
-                <label htmlFor="post-image">
+                <label htmlFor="post-image" className="remove-img-label">
                 <i onclick={(e) => this.uploadImage(e)} className={fontAwesomeIcon} aria-hidden="true"></i>
                   {btnText}
                  </label>
