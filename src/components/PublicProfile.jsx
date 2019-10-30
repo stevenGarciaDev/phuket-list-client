@@ -120,9 +120,13 @@ class PublicProfile extends Component {
                 </div>
 				<div className="public-profile-basic row nopadding">
 					<div className="col-md-12 nopadding">
+						 
 						<img alt="profile" src={this.state.profile_avatar} className="public-profile-avatar" />
 						<h2 className="module-title">{this.state.profile_name}</h2>
+						<div className = "widthless">
 						<small>{`${this.state.profile_bio}`}</small>
+						</div>
+						
 					</div>
 					<div className="col-md-12 nopadding">
 						

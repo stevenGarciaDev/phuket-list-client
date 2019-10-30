@@ -798,7 +798,7 @@ Activity Feed page
   padding: 0 15px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  width: 10px;
+  width: 800px;
 
 }
 
@@ -1122,8 +1122,14 @@ Task Group page
 
 .public-profile-basic {
   max-width: 75rem;
+  
   padding: 25px !important;
   background-color: #f6f6f6;
+}
+.widthless {
+  width: 50%;
+  margin-left: 25%;
+
 }
 
 .public-profile-avatar {
@@ -1223,11 +1229,11 @@ Task Group page
 
 
 small{
-  font-size: 80%;
-  font-weight: 400;
-  overflow-wrap: break-word;
+  font-size: 100%;
+  word-break:normal;
   width:250px;
   text-align: left;
+  
 }
 
 textarea[name=noResize] {

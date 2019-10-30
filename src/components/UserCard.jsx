@@ -11,7 +11,7 @@ class UserCard extends Component {
 
   		return (
 			<span>
-						<div className="task-group-members-user-item-card-container">
+						<div  className="task-group-members-user-item-card-container">
 							<div className="task-group-members-user-item-card">
 				                <div className="activity-feed-user-info-card-bg row nopadding">
 				                </div>
@@ -20,7 +20,7 @@ class UserCard extends Component {
 				                    <img alt="default profile" src="https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg" className="activity-feed-user-info-card-avatar" />
 				                    <p className="activity-feed-user-info-card-name">{`${name}`}</p>
 				                </div>
-				                <div className="activity-feed-user-info-card-bio">
+				                <div  className="activity-feed-user-info-card-bio">
 				                    { isPrivateProfile ?
 				                    	(<small ><i className="fa fa-lock"></i>{` User's profile is private...`}</small>)
 				                    	:
