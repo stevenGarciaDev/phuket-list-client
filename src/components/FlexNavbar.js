@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getUnread } from '../services/messageService';
 import { getCurrentUser } from '../services/authService';
+import { getCurrentLocation } from '../services/locationService';
 
 class FlexNavbar extends Component {
 
@@ -23,6 +24,10 @@ class FlexNavbar extends Component {
             const user = await getCurrentUser();
             const unread = await getUnread(user._id);
             this.setState({unreadMessages: unread});
+            // Get user's current location, with permission
+            getCurrentLocation().then(function(response) {
+                console.log("Location:", response.coords);
+            });
         } catch (ex) {
             console.log("error ", ex)
         }
