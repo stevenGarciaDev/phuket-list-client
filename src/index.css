@@ -909,7 +909,7 @@ Task Group page
   margin-bottom: 0px;
 }
 
-.task-group-members-nav {
+.side-section-nav {
   background-color: #fff;
   border: 1px solid #cccccc;
   width: 100%;
@@ -917,7 +917,7 @@ Task Group page
   padding: 15px;
 }
 
-.task-group-members-nav > h3 {
+.side-section-nav > h3 {
   color: #333;
   font-size: 1em;
 }
@@ -947,6 +947,40 @@ Task Group page
 .task-group-members-list-item:hover {
   background-color: #f7f7f7;
 }
+
+.recommendations-container {
+  margin-top: 20px;
+}
+
+.recommendation-title {
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+.RecommendationItem {
+  margin: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.recommendation-icon {
+  margin-right: 10px;
+}
+
+.recommendation-content {
+  text-align: left;
+}
+
+.recommendation-content h3 {
+  font-size: 18px;
+}
+
+.recommendation-content p {
+  color: #70757A;
+}
+
+
+
 
 .shadow-text {
   color: white;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import ActivityFeed from "./ActivityFeed";
 import UserItem from "./UserItem";
+import RecommendationItem from "./RecommendationItem";
 import { getCurrentUser } from "../services/authService";
 import {
 	getListItems,
@@ -12,6 +13,7 @@ import {
 import {
 	getPublicuser,
 	getUserBasic } from "../services/userService";
+
 
 class TaskGroup extends Component {
 
@@ -101,13 +103,13 @@ class TaskGroup extends Component {
 				</div>
 				<div className="task-group-content">
 	  			<div className="row nopadding">
-	  				<div className="task-group-feed col-md-9">
+	  				<div className="task-group-feed col-lg-9">
 	  					<ActivityFeed taskId={task_id} />
 	  				</div>
-          	<div className="task-group-members col-md-3">
+          	<div className="task-group-members col-lg-3">
           		<div className="sticky">
-          			<div className="task-group-members-nav">
-									<h3>Members</h3>
+          			<div className="side-section-nav">
+									<h3>Recently Joined Members</h3>
 									<div className="task-group-members-list">
 											{members.length > 0 && members.map ( item =>
 												<UserItem
@@ -117,6 +119,18 @@ class TaskGroup extends Component {
 											)}
 									</div>
 								</div>
+								<section className="recommendations-container">
+									<div className="sticky">
+										<div className="side-section-nav">
+											<h3 className="recommendation-title">Recommendations</h3>
+											<div>
+												<RecommendationItem />
+												<RecommendationItem />
+												<RecommendationItem />
+											</div>
+										</div>
+									</div>
+								</section>
 							 </div>
       			</div>
       		</div>
