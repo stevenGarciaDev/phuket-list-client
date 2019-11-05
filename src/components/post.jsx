@@ -4,7 +4,7 @@ import Like from './Like';
 import CommentIcon from './CommentIcon';
 import ReportIcon from './ReportIcon';
 import { Link } from 'react-router-dom';
-import { updateLikeInfo, getIsAppropriate } from '../services/postService';
+import { updateLikeInfo, getIsAppropriate,remove } from '../services/postService';
 import { getCurrentUser } from '../services/authService';
 import { getUserPhotoByID } from "../services/userService";
 
@@ -79,7 +79,8 @@ class Post extends Component {
   }
 
   delPost = () =>{
-    console.log("testing");
+    alert("you sure you wanna delete?");
+    remove(this.state.id);
   }
 
   handleReportButton = () => {
@@ -101,7 +102,7 @@ class Post extends Component {
       comments,
       displayComments
     } = this.state;
-
+    const userId = getCurrentUser()._id;
     return ( (this.state.isAppropriate) ?
       <div className="post-module">
           <div className="post-module-top row">
@@ -125,9 +126,13 @@ class Post extends Component {
                     {dateCreated}
                  </Moment>
               </small>
+              {userId === author._id ?
               <span id="grid" onClick={() => this.delPost()}> 
                 <i className="fa fa-times" ></i>
               </span> 
+              :
+              <div></div>
+              }
             </div>
           </div>
 

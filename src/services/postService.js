@@ -66,8 +66,8 @@ export function edit(post) {
 
 }
 
-export function remove(post) {
-
+export function remove(id) {
+  return http.post(`${apiEndpoint}/delPost`,{id});
 }
 
 export function update(post) {
