@@ -13,6 +13,7 @@ import {
 import {
 	getPublicuser,
 	getUserBasic } from "../services/userService";
+import { getRelatedBusinesses } from '../services/yelpService';
 
 
 class TaskGroup extends Component {
@@ -124,9 +125,10 @@ class TaskGroup extends Component {
 										<div className="side-section-nav">
 											<h3 className="recommendation-title">Recommendations</h3>
 											<div>
-												<RecommendationItem />
-												<RecommendationItem />
-												<RecommendationItem />
+												<RecommendationItem name="Sukrit's Chocolate" location="Long Beach, California" />
+												<RecommendationItem name="Kenny's Tacos" location="Long Beach, California" />
+												<RecommendationItem name="Richie's Boba Shop" location="Long Beach, California" />
+												<RecommendationItem name="Steven's Weed Dispensary" location="Long Beach, California" />
 											</div>
 										</div>
 									</div>

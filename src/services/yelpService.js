@@ -2,7 +2,11 @@ import axios from "axios";
 
 const yelpFusionBaseURL = process.env.YELP_FUSION_API_URL;
 
-export function getRelatedBusinesses(term, latitude='', longitude='') {
+/*
+Make a GET request to Yelp Fusion API
+for businesses based on keyword term, longitude, latitude
+*/
+export async function getRelatedBusinesses(term, longitude='', latitude='') {
   try {
     // check if latitude and longitude are not null
 

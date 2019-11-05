@@ -7,8 +7,8 @@ const RecommendationItem = (props) => {
         <i className="fas fa-utensils"></i>
       </div>
       <div className="recommendation-content">
-        <h3>Chocolate Factory</h3>
-        <p>Long Beach, California</p>
+        <h3>{props.name}</h3>
+        <p>{props.location}</p>
       </div>
     </div>
   );
