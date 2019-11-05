@@ -5,6 +5,9 @@ import SettingsActiveAccount from './SettingsActiveAccount';
 import { getCurrentUser } from '../services/authService';
 import { updateSettingDetail, getSettingtDetail } from '../services/userService';
 import PasswordNew from './PasswordNew';
+import Modal from 'react-responsive-modal';
+import { Form, Button } from 'react-bootstrap';
+import {getCurrentLocation} from '../services/locationService';
 
 class Settings extends Component {
 
@@ -15,9 +18,34 @@ class Settings extends Component {
       name: " ",
       email: " ",
       isPrivate: false,
-      isActive: false
+      isActive: false,
+      isSyncLocation: false
     }
   }
+
+
+/////////////////
+locationOn()
+{
+  try{
+    
+  this.setState({isSyncLocation: true});
+  }
+  catch{
+    console.log("Fail to sync location");
+  }
+  
+}
+
+locationOff()
+{
+  
+    
+// this.state.isSyncLocation = false;
+  this.setState({isSyncLocation : false});
+ 
+}
+///////////////////////
 
 
   async componentDidMount() {
@@ -41,6 +69,15 @@ class Settings extends Component {
     //this.setState({user: getCurrentUser() });
 
   }
+
+  shareLocation = async (e) => {
+    e.preventDefault();
+    //const jwt = localStorage.getItem("token");
+    let response = getCurrentLocation();
+    console.log(response);
+    this.setState({isSyncLocation : false});
+  }
+
 
   render() {
     const { name, email, isPrivate, isActive } = this.state;
@@ -82,8 +119,31 @@ class Settings extends Component {
         <SettingsActiveAccount
           displayName="Permanently Deactive Account"
         />
-
+     
+       
         </table>
+
+        <div className="settings-module"> 
+        
+        <Button variant="primary" size="lg" block onClick={() => this.locationOn()}>
+            Sync Location
+          </Button>
+
+          <Modal open={this.state.isSyncLocation} onClose={() => this.locationOff()}>
+            <h2>Syncing Location</h2>
+            <p>Are you sure you want share your location?</p>
+            <Form >
+            <Button className="d-flex justify-content-start" variant="warning" type="submit" 
+           onClick={(e) => this.shareLocation(e)} >
+                  Confirm
+                </Button> 
+            </Form>
+        </Modal>
+
+        </div>
+
+        
+        
 
         <div className="settings-module">
           <h2>Security</h2>
