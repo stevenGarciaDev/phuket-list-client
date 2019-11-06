@@ -73,8 +73,8 @@ locationOff()
   shareLocation = async (e) => {
     e.preventDefault();
     //const jwt = localStorage.getItem("token");
-    let response = getCurrentLocation();
-    console.log(response);
+    let response = await getCurrentLocation();
+    console.log("Your locatuion: " , response.coords);
     this.setState({isSyncLocation : false});
   }
 
