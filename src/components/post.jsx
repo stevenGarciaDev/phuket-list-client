@@ -78,9 +78,13 @@ class Post extends Component {
     });
   }
 
-  delPost = () =>{
+  delPost =async () =>{
     alert("you sure you wanna delete?");
-    remove(this.state.id);
+    const response = await remove(this.state.id);
+    console.log(response);
+    if(response){
+      window.location.reload();
+    }
   }
 
   handleReportButton = () => {
