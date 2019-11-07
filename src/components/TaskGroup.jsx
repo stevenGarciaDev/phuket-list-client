@@ -14,7 +14,7 @@ import {
 	getPublicuser,
 	getUserBasic } from "../services/userService";
 import { getRelatedBusinesses } from '../services/yelpService';
-
+import { getCurrentLocation } from '../services/locationService';
 
 class TaskGroup extends Component {
 
@@ -26,17 +26,18 @@ class TaskGroup extends Component {
 	      user_hastask: false,
 	      message: '',
 	      members: [],
+				recommendations: []
 		};
 	}
 
 	async componentDidMount() {
 		// User authentication
 		const user = getCurrentUser();
-	  	const jwt = localStorage.getItem("token");
+	  const jwt = localStorage.getItem("token");
 
 		// Get task name
 		const response = await getListItem(this.state.task_id);
-    	this.setState({task_name: response.data.taskName})
+    this.setState({task_name: response.data.taskName})
 
 		// Find if user has task
 		const tasksresponse = await getListItems(user, jwt);
@@ -49,31 +50,47 @@ class TaskGroup extends Component {
 		// Call function to retrieve members
 		let members = await this.getMembers();
 		this.setState({ members });
+
+		getCurrentLocation().then(async result => {
+			console.log("latitude", result.coords.latitude);
+			console.log("longitude", result.coords.longitude);
+			const latitude = result.coords.latitude;
+			const longitude = result.coords.longitude;
+
+			// retrieve recommendations
+			let recommendationsData = await getRelatedBusinesses('mexican', latitude, longitude);
+			console.log("recommendationsData", recommendationsData);
+			this.setState({ recommendations: recommendationsData });
+
+		}).catch(error => {
+			console.log("ERROR", error);
+		});
+
 	}
 
-  	getMembers = async () =>  {
-  		// Get members with this task in bucketlist
+  getMembers = async () =>  {
+		// Get members with this task in bucketlist
 		const membersresponse = await getTaskUsers(this.state.task_id);
 
-	    const members = [];
-	    for (var i = 0; i < membersresponse.data.length; i++) {
-	    	var member = membersresponse.data[i];
-	    	const response = await getUserBasic(member.owner);
-	    	members.push(response.data);
-	    }
+    const members = [];
+    for (var i = 0; i < membersresponse.data.length; i++) {
+    	var member = membersresponse.data[i];
+    	const response = await getUserBasic(member.owner);
+    	members.push(response.data);
+    }
 
-	    return members;
-  	}
-
-  	contains = (arr, key, val) => {
-	    for (var i = 0; i < arr.length; i++) {
-	        if(arr[i][key] === val) return true;
-	    }
-	    return false;
+    return members;
 	}
 
-  	renderRedirect = () => {
-	    if (this.state.task_name === '') {
+	contains = (arr, key, val) => {
+    for (var i = 0; i < arr.length; i++) {
+        if(arr[i][key] === val) return true;
+    }
+    return false;
+	}
+
+	renderRedirect = () => {
+    if (this.state.task_name === '') {
 			return (<Redirect to='/not-found' />);
 		}
 	}
@@ -128,7 +145,7 @@ class TaskGroup extends Component {
 												<RecommendationItem name="Sukrit's Chocolate" location="Long Beach, California" />
 												<RecommendationItem name="Kenny's Tacos" location="Long Beach, California" />
 												<RecommendationItem name="Richie's Boba Shop" location="Long Beach, California" />
-												<RecommendationItem name="Steven's Weed Dispensary" location="Long Beach, California" />
+												<RecommendationItem name="Steven's Burritos" location="Long Beach, California" />
 											</div>
 										</div>
 									</div>

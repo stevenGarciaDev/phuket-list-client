@@ -7,7 +7,11 @@ const RecommendationItem = (props) => {
         <i className="fas fa-utensils"></i>
       </div>
       <div className="recommendation-content">
-        <h3>{props.name}</h3>
+        {props.name.length < 23 ?
+            <h3>{props.name}</h3>
+          :
+            <h3>{`${props.name.substr(0, 15)}...`}</h3>
+        }
         <p>{props.location}</p>
       </div>
     </div>
