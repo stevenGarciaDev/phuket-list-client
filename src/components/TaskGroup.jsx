@@ -8,7 +8,8 @@ import {
 	getListItems,
 	getListItem,
 	findOrCreateTask,
-	getTaskUsers
+	getTaskUsers,
+	getRecentTaskUsers
 } from "../services/bucketListService";
 import {
 	getPublicuser,
@@ -48,7 +49,7 @@ class TaskGroup extends Component {
 		}
 
 		// Call function to retrieve members
-		let members = await this.getMembers();
+		let members = await this.getRecentMembers();
 		this.setState({ members });
 
 		getCurrentLocation().then(async result => {
@@ -68,18 +69,32 @@ class TaskGroup extends Component {
 
 	}
 
-  getMembers = async () =>  {
+	getRecentMembers = async () =>  {
+		// Get members with this task in bucketlist
+		const membersresponse = await getRecentTaskUsers(this.state.task_id);
+
+	    const members = [];
+	    for (var i = 0; i < membersresponse.data.length; i++) {
+	    	var member = membersresponse.data[i];
+	    	const response = await getUserBasic(member.owner);
+	    	members.push(response.data);
+	    }
+
+	    return members;
+	}
+
+  	getMembers = async () =>  {
 		// Get members with this task in bucketlist
 		const membersresponse = await getTaskUsers(this.state.task_id);
 
-    const members = [];
-    for (var i = 0; i < membersresponse.data.length; i++) {
-    	var member = membersresponse.data[i];
-    	const response = await getUserBasic(member.owner);
-    	members.push(response.data);
-    }
+	    const members = [];
+	    for (var i = 0; i < membersresponse.data.length; i++) {
+	    	var member = membersresponse.data[i];
+	    	const response = await getUserBasic(member.owner);
+	    	members.push(response.data);
+	    }
 
-    return members;
+	    return members;
 	}
 
 	contains = (arr, key, val) => {
