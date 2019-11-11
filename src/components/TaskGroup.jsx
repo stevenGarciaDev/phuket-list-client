@@ -95,6 +95,15 @@ class TaskGroup extends Component {
 		}
 	}
 
+	searchByTaskName = (name) => {
+		// split the task name
+		// identify which of them are found in
+		// recommendation database
+		const words = name.toLowerCase().split(" ");
+		// search by the first
+		
+	}
+
 	// addTask = () => {
 	// 	try {
 	//       const user = getCurrentUser();
