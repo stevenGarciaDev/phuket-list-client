@@ -7,7 +7,7 @@ class UserCard extends Component {
   	}
 
   	render() {
-  		const { id, name, bio, isPrivateProfile } = this.props;
+  		const { id, name, bio, isPrivateProfile, photo } = this.props;
 
   		return (
 			<span>
@@ -17,7 +17,11 @@ class UserCard extends Component {
 				                </div>
 				                <div className="activity-feed-user-info-card-body row">
 				                  	{/*TODO: Get avatar*/}
-				                    <img alt="default profile" src="https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg" className="activity-feed-user-info-card-avatar" />
+				                  	{ photo ?
+										(<img alt="default profile" src={photo} className="activity-feed-user-info-card-avatar" />)
+										:
+										(<img alt="default profile" src="https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg" className="activity-feed-user-info-card-avatar" />)
+									}
 				                    <p className="activity-feed-user-info-card-name">{`${name}`}</p>
 				                </div>
 				                <div  className="activity-feed-user-info-card-bio">
