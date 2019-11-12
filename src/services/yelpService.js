@@ -23,7 +23,13 @@ export async function getRelatedBusinesses(term, latitude, longitude) {
     })
     .then(result => {
       result = result.data.businesses;
-      return result;
+
+      let data = [];
+      for (let i = 0; i < 5; i++) {
+        data.push(result[i]);
+      }
+
+      return data;
     })
     .catch(err => {
       console.log("Error making request to Yelp Fusion API")

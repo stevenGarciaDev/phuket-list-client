@@ -8,7 +8,7 @@ class UserCard extends Component {
   	}
 
   	render() {
-  		const { id, name, bio, isPrivateProfile } = this.props;
+  		const { id, name, bio, isPrivateProfile, photo } = this.props;
 
   		return (
 			

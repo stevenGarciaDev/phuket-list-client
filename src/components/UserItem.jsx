@@ -58,6 +58,7 @@ class UserItem extends Component {
 						name={user.name}
 						bio={user.bio}
 						isPrivateProfile={user.isPrivateProfile}
+						photo={user.photo}
 						hovering={this.state.hovering}
 					/>
 					</div>
