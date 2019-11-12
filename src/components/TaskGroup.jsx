@@ -126,9 +126,17 @@ class TaskGroup extends Component {
 	  				</div>
           	<div className="task-group-members col-lg-3">
           		<div className="sticky">
-          			<div className="side-section-nav">
-									<h3>Recently Joined Members</h3>
-									<div className="task-group-members-list">
+					  
+          			<div  className="side-section-nav">
+					  
+						  			
+									  <div name = "membersIconTitle">Recently Joined Members</div>
+									
+										  
+									  
+									
+									  
+									<div name = "membersIconBody" className="task-group-members-list">
 											{members.length > 0 && members.map ( item =>
 												<UserItem
 													key={item._id}

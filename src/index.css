@@ -458,12 +458,35 @@ div[name = cardHeaderColor]{
   width: 100%;
 }
 
+div[name = membersIconTitle]{
+
+  background-color: #17a2b8;
+  position: absolute; /* Reposition logo from the natural layout */
+  
+  width: 100%;
+  height: 50px;
+  left: 0px;
+  top: 0px;
+  color: white;
+  padding-bottom: 5px;
+  padding-top: 10px;
+  
+
+}
+
 div[name = cardBodyColor]{
 
   background-color: white;
   border-color: white;
   border-style: solid;
   border-width: 5px;
+  width: 100%;
+}
+
+div[name = membersIconBody]{
+
+  border-width: 5px;
+  padding-top: 40px;
   width: 100%;
 }
 
@@ -774,6 +797,13 @@ Activity Feed page
 .activity-feed-user-info-card-body {
   padding: 5px 15px;
   margin: 0px 0px !important;
+
+}
+
+.Hover-Card {
+  position: absolute;
+  left: -1000 px;
+
 
 }
 

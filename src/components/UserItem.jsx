@@ -50,6 +50,9 @@ class UserItem extends Component {
 				</div>
 
 				{ hovering &&
+				
+				
+					<div className= "Hover-Card">
 					<UserCard
 						id={user._id}
 						name={user.name}
@@ -57,6 +60,9 @@ class UserItem extends Component {
 						isPrivateProfile={user.isPrivateProfile}
 						hovering={this.state.hovering}
 					/>
+					</div>
+					
+				
 				}
 			</React.Fragment>
     );
