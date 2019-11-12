@@ -33,6 +33,11 @@ export async function getTaskUsers(taskid) {
   return response;
 }
 
+export async function getTaskUsersLazy(taskid, pagenum) {
+  const response = await http.get(`${apiEndpoint}/users/${taskid}/${pagenum}`);
+  return response;
+}
+
 export async function getRecentTaskUsers(taskid) {
   const response = await http.get(`${apiEndpoint}/users/${taskid}/latest`);
   return response;

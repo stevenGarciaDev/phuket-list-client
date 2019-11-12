@@ -938,6 +938,72 @@ Task Group page
   padding-top: 20px;
 }
 
+.task-group-modal-members {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow-y: hidden;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.task-group-modal-members-content {
+  background-color: #fefefe;
+  margin: auto;
+  border: 1px solid #888;
+  width: 50%;
+  min-width: 400px;
+  min-height: 300px;
+  max-height: 50vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.task-group-modal-members-content-users-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.task-group-modal-members-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: -10px;
+  margin-right: 10px;
+}
+
+.task-group-modal-members-close:hover,
+.task-group-modal-members-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.task-group-modal-members-user {
+  border: 1px solid #ededed;
+  padding: 15px 0px;
+}
+
+.task-group-modal-members-user:hover {
+  background-color: #f7f7f7;
+}
+
+.task-group-modal-members-user-avatar {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  border: 2px solid #f6f6f6;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #fff;
+  margin-right: 15px;
+}
+
 .task-group-members-list {
   display: flex;
   flex-wrap: wrap;
