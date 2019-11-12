@@ -16,6 +16,7 @@ import {
 	getUserBasic } from "../services/userService";
 import { getRelatedBusinesses } from '../services/yelpService';
 import { getCurrentLocation } from '../services/locationService';
+import { getRecommendations } from '../services/recommendationService';
 
 class TaskGroup extends Component {
 
@@ -58,11 +59,18 @@ class TaskGroup extends Component {
 			const latitude = result.coords.latitude;
 			const longitude = result.coords.longitude;
 
-			// retrieve recommendations
-			let recommendationsData = await getRelatedBusinesses('mexican', latitude, longitude);
-			console.log("recommendationsData", recommendationsData);
-			this.setState({ recommendations: recommendationsData });
+			// get recommendation keywords
+			const recommendationKeywords = await getRecommendations();
+			console.log("recommendationKeywords", recommendationKeywords);
 
+			const term = this.identifySearchTerm(this.state.task_name, recommendationKeywords);
+			console.log("term", term);
+			if (term) {
+				// retrieve recommendations
+				let recommendationsData = await getRelatedBusinesses(term.keyword, latitude, longitude);
+				console.log("recommendationsData", recommendationsData);
+				this.setState({ recommendations: recommendationsData });
+			}
 		}).catch(error => {
 			console.log("ERROR", error);
 		});
@@ -110,13 +118,19 @@ class TaskGroup extends Component {
 		}
 	}
 
-	searchByTaskName = (name) => {
+	identifySearchTerm = (name, keywords) => {
 		// split the task name
 		// identify which of them are found in
 		// recommendation database
 		const words = name.toLowerCase().split(" ");
-		// search by the first
-		
+		let filtered = [{}];
+
+		for (let word of words) {
+			filtered = keywords.filter(k => k.keyword === word);
+			if (filtered.length > 0)
+				break;
+		}
+		return filtered.length > 0 ? filtered[0] : null;
 	}
 
 	// addTask = () => {
@@ -136,7 +150,7 @@ class TaskGroup extends Component {
 	// }
 
 	render() {
-		const { task_name, task_id, user_hastask, message, members } = this.state;
+		const { task_name, task_id, user_hastask, message, members, recommendations } = this.state;
 		return (
 			<React.Fragment>
 				<div className="jumbotron task-group-jumbotron"><h1 className="shadow-text bold-text">{`"${task_name}" Group`}</h1>
@@ -166,10 +180,16 @@ class TaskGroup extends Component {
 										<div className="side-section-nav">
 											<h3 className="recommendation-title">Recommendations</h3>
 											<div>
-												<RecommendationItem name="Sukrit's Chocolate" location="Long Beach, California" />
-												<RecommendationItem name="Kenny's Tacos" location="Long Beach, California" />
-												<RecommendationItem name="Richie's Boba Shop" location="Long Beach, California" />
-												<RecommendationItem name="Steven's Burritos" location="Long Beach, California" />
+												{ recommendations.length > 0 ?
+													recommendations.map(r => (
+														<RecommendationItem
+															name={r.name}
+															location={r.location.address1}
+														/>
+													))
+													:
+													<div>No recommendations</div>
+												}
 											</div>
 										</div>
 									</div>
