@@ -26,7 +26,9 @@ class BucketList extends Component {
       loading: "",
       listFilterSearch: '',
       listFilterItems: [],
-      inputError: null
+      inputError: null,
+      filter: 3,
+      selectedFilter:''
     };
   }
 
@@ -38,7 +40,7 @@ class BucketList extends Component {
     // need to pass request headers
     const response = await getListItems(user, jwt);
     const listItems = response.data[0].listItems;
-    this.setState({ listItems: listItems });
+    this.setState({ listItems: listItems }); 
   }
 
   handleAdd = e => {
@@ -85,13 +87,52 @@ class BucketList extends Component {
 
       response.then(result => {
         const listItems = result.data;
-        this.setState({ listItems });
+        console.log(listItems);
+        var newlist = this.listsort(listItems,this.state.filter);
+        console.log(newlist);
+        this.setState({listItems: newlist });
       });
     } catch (ex) {
       alert("Unable to add item.");
       //this.setState({ listItems: originalList });
-    }
+    }   
   };
+
+  listsort = (list,value) =>{
+    console.log(list);
+    switch(value) {
+      case 0: // Alphabetical sort (ascending)
+        list.sort(function (a, b) {
+                    var textA = a.taskName.toUpperCase();
+                    var textB = b.taskName.toUpperCase();
+
+                    return textA.localeCompare(textB);
+                  });
+        //this.setState({listItems: sortedArray});
+        return list;
+      case 1: // Alphabetical sort (descending)
+        list.sort(function (a, b) {
+                    var textA = a.taskName.toUpperCase();
+                    var textB = b.taskName.toUpperCase();
+
+                    return textB.localeCompare(textA);
+                  });
+        //this.setState({listItems: sortedArray});
+        return list;
+        case 3:
+            list.sort(function (a, b) {
+              var textA = a.dateAdded;
+              var textB = b.dateAdded;
+  
+              return textB.localeCompare(textA);
+            });
+            //this.setState({listItems: sortedArray});
+            return list;
+      default:
+        console.log("Sorting: invalid");
+        return list;
+    }
+  }
 
   handleUpdate = (item, newText) => {
     const user = getCurrentUser();
@@ -108,7 +149,7 @@ class BucketList extends Component {
     response.then(result => {
       const updatedList = result.data;
       this.setState({ listItems: updatedList });
-    });
+    });    
   };
 
   handleDelete = async item => {
@@ -135,7 +176,7 @@ class BucketList extends Component {
     }
     //if (this.confirmDelete(item)) {
     //
-    //}
+    //}    
   };
 
   handleCompleted = async item => {
@@ -152,8 +193,7 @@ class BucketList extends Component {
       await toggleComplete(user, item, jwt);
     } catch (ex) {
       this.setState({ listItems: originalList });
-    }
-
+    }   
   };
 
   confirmDelete = item => {
@@ -163,7 +203,7 @@ class BucketList extends Component {
     if (answer) {
       return true;
     }
-    return false;
+    return false;   
   };
 
   // onChange function for Add New Task input
@@ -194,11 +234,11 @@ class BucketList extends Component {
       this.setState({listFilterSearch: searchInput})
     } else {
       this.setState({listFilterSearch: ''})
-    }
-
+    }  
   }
 
   async filterSort(value) {
+    this.state.filter = value;
     console.log("Sorting started...");
     var sortedArray = this.state.listItems;
     switch(value) {
@@ -230,16 +270,34 @@ class BucketList extends Component {
         const listItems = response.data[0].listItems;
         this.setState({ listItems: listItems });
         return;
+        case 3:
+            this.state.selectedFilter = 'Newest';
+            sortedArray.sort(function (a, b) {
+              var textA = a.dateAdded;
+              var textB = b.dateAdded;
+  
+              return textB.localeCompare(textA);
+            });
+            this.setState({listItems: sortedArray});
+            return;
       default:
         console.log("Sorting: invalid");
         return;
-    }
+    }   
+  }
+
+  setSelectedFilter(e) {
+    console.log(e);
+    if(typeof e != null)
+      this.setState({ selectedFilter: e.target.value });
+    else
+      return;
   }
 
   render() {
     const { user } = this.props;
-    const { inputError } = this.state;
-
+    const { inputError,filter } = this.state;
+    
     return (
       <div>
         <div className="jumbotron text-center" id="bucket-list-jumbotron">
@@ -351,14 +409,31 @@ class BucketList extends Component {
                 />
 
                 {/* Drop down for filter type */}
-                <Dropdown className="col-md-2">
+                <Dropdown className="col-md-2" selectedValue = {filter}>
                   <Dropdown.Toggle className="btn btn-info list-filter-dropdown" variant="success" id="dropdown-basic">
                     Filter by..
                   </Dropdown.Toggle>
-                  <Dropdown.Menu >
-                    <Dropdown.Item onClick={() => { this.filterSort(0) }}>Alphabetical (ascending)</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.filterSort(1) }}>Alphabetical (descending)</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.filterSort(2) }}>Default (newest first)</Dropdown.Item>
+                  <Dropdown.Menu  >
+                  <Dropdown.Item disabled >Select a Filter</Dropdown.Item>
+                  <Dropdown.Item divider />
+                  {filter === 3?
+                    <Dropdown.Item active onClick={() => { this.filterSort(3) }}value={3}>Newest</Dropdown.Item>
+                    :<Dropdown.Item onClick={() => { this.filterSort(3) }}value={3}>Newest</Dropdown.Item>
+                  }
+                  {filter === 2?
+                    <Dropdown.Item active onClick={() => { this.filterSort(2) }}value={2}>Default</Dropdown.Item>
+                    : <Dropdown.Item onClick={() => { this.filterSort(2) }}value={2}>Default</Dropdown.Item>
+                  }
+                  {filter === 0?
+                    <Dropdown.Item active onClick={() => { this.filterSort(0) }}value={0}>Alphabetical (ascending)</Dropdown.Item>
+                    :<Dropdown.Item onClick={() => { this.filterSort(0) }}value={0}>Alphabetical (ascending)</Dropdown.Item>
+                  }
+                  {filter === 1?
+                    <Dropdown.Item active onClick={() => { this.filterSort(1) }}value={1}>Alphabetical (descending)</Dropdown.Item>
+                    :<Dropdown.Item onClick={() => { this.filterSort(1) }}value={1}>Alphabetical (descending)</Dropdown.Item>
+                  }
+                    
+                    
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
