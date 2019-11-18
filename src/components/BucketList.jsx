@@ -20,9 +20,9 @@ class BucketList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listItems: [],
-      searchCurrent: '',
-      searchResults: [],
+      listItems: [], // User's bucket list items
+      newTaskInput: '', // "Add New Task" form
+      searchResults: [], // for autocomplete search NOT BucketList search
       loading: "",
       listFilterSearch: '',
       listFilterItems: [],
@@ -92,6 +92,7 @@ class BucketList extends Component {
         console.log(newlist);
         this.setState({listItems: newlist });
       });
+      this.setState({newTaskInput: ''}); // resets form value
     } catch (ex) {
       alert("Unable to add item.");
       //this.setState({ listItems: originalList });
@@ -211,14 +212,14 @@ class BucketList extends Component {
     if (!e) {
       return;
     }
-    var searchInput = e.target.value;
+    var newTaskInput = e.target.value;
 
-    //console.log("search input is ", searchInput);
+    //console.log("search input is ", newTaskInput);
 
-    this.setState({searchInput: searchInput});
-    searchInput = searchInput.toLowerCase(); // Lowercase for uniform search
-    if (searchInput.length > 0) {
-      const response = getLikeTasks(searchInput); // Query from
+    this.setState({newTaskInput: newTaskInput});
+    newTaskInput = newTaskInput.toLowerCase(); // Lowercase for uniform search
+    if (newTaskInput.length > 0) {
+      const response = getLikeTasks(newTaskInput); // Query from
       response.then(
         function(results) {
           this.setState({ searchResults: results.data });
@@ -308,11 +309,10 @@ class BucketList extends Component {
               <Downshift
                 itemToString={item => (item === null ? "" : item.title)}
                 onChange={selection =>
-                  (document.getElementById("new_task").value = `${
+                  (this.state.newTaskInput = `${
                     selection.taskName
                   }`)
                 }
-                onOuterClick={() => (document.getElementById("new_task").value = this.state.searchInput)}
               >
                 {({
                   getInputProps,
@@ -335,6 +335,7 @@ class BucketList extends Component {
                           placeholder: "Enter a bucket list item!",
                           id: "new_task",
                           name: "new_task",
+                          value: this.state.newTaskInput,
                           className: this.state.loading ? "loading" : "",
                           onChange: e => {
                             e.persist();
