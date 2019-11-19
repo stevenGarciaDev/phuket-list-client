@@ -54,7 +54,8 @@ class FlexNavbar extends Component {
     onCloseTabDropdown() {
         this.setState({
             isConnectCollapsed: false,
-            isAccountCollapsed: false
+            isAccountCollapsed: false,
+            displayMenu: false
         });
     }
 
@@ -67,20 +68,21 @@ class FlexNavbar extends Component {
 
     hideItem() {
         const { displayMenu } = this.state;
-        return displayMenu ? '' : 'hidden-display-item';
+        return displayMenu ? '' : 'hidden-display-item'; //"fas fa-bars fa-2x"
     }
     
     render() {
         const { user } = this.props;
-        const { displayMenu, isConnectCollapsed, isAccountCollapsed } = this.state;
+        const { displayMenu, isConnectCollapsed, isAccountCollapsed } = this.state; //fas fa-times fa-2x
 
         return ( 
             <nav>         
             
 
                 <i 
-                    id="hamburger-menu"
-                    className="fas fa-bars fa-2x"
+                    id="hamburger-menu"  
+                    className=
+                    {`fas fa-${!this.state.displayMenu ? 'bars fa-2x': 'times fa-2x'}`}
                     onClick={() => this.onMenuDropdown()}
                     ></i>
 
