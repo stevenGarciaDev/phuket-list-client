@@ -134,7 +134,7 @@ class UserActivityPage extends Component {
                     }
                     <p className="activity-feed-user-info-card-name">{`${user.name}`}</p>
                   </div>
-                  <div className="activity-feed-user-info-card-bio text-center row">
+                  <div className="activity-feed-user-info-card-bio text-center row"> 
                     {this.state.profileBio ?
                       (<small>{`${this.state.profileBio}`}</small>)
                       :

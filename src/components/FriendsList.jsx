@@ -160,6 +160,7 @@ class FriendsList extends Component {
             <input type="text"
               className="form-control col-md-6 offset-md-3"
               placeholder="Search by name..."
+              maxlength = {100}
               onChange={(e) => this.filterFriendOptions(e)} />
             <h2 className="friends-page-title">People You May Know</h2>
 
@@ -182,6 +183,7 @@ class FriendsList extends Component {
                 <input type="text"
                   className="form-control col-md-6 offset-md-3"
                   placeholder="Search by name..."
+                  maxlength = {100}
                   onChange={(e) => this.filterExistingFriends(e)} />
                 <h2>Friends {friends.length}</h2>
                 <div className="row">
