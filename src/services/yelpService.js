@@ -22,6 +22,7 @@ export async function getRelatedBusinesses(term, latitude, longitude) {
       }
     })
     .then(result => {
+      console.log("the result is ", result);
       result = result.data.businesses;
 
       let data = [];

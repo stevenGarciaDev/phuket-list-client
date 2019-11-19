@@ -62,22 +62,26 @@ class TaskGroup extends Component {
 		this.getMembersLazy();
 
 		getCurrentLocation().then(async result => {
-			console.log("latitude", result.coords.latitude);
-			console.log("longitude", result.coords.longitude);
 			const latitude = result.coords.latitude;
 			const longitude = result.coords.longitude;
 
 			// get recommendation keywords
 			const recommendationKeywords = await getRecommendations();
-			console.log("recommendationKeywords", recommendationKeywords);
 
 			const term = this.identifySearchTerm(this.state.task_name, recommendationKeywords);
-			console.log("term", term);
-			if (term) {
+			// check if the term is in local storage
+			const storedData = localStorage.getItem(term.keyword);
+
+			if (term && !storedData) {
 				// retrieve recommendations
 				let recommendationsData = await getRelatedBusinesses(term.keyword, latitude, longitude);
-				console.log("recommendationsData", recommendationsData);
+				let jsonData = JSON.stringify(recommendationsData);
 				this.setState({ recommendations: recommendationsData });
+				// set in local storage
+				localStorage.setItem(term.keyword, jsonData);
+			} else {
+				let jsonData = JSON.parse(storedData);
+				this.setState({ recommendations: jsonData });
 			}
 		}).catch(error => {
 			console.log("ERROR", error);
@@ -188,16 +192,16 @@ class TaskGroup extends Component {
 	  				</div>
           	<div className="task-group-members col-lg-3">
           		<div className="sticky">
-					  
+
           			<div  className="side-section-nav">
-					  
-						  			
+
+
 									  <div name = "membersIconTitle">Recently Joined Members</div>
-									
-										  
-									  
-									
-									  
+
+
+
+
+
 									<div name = "membersIconBody" className="task-group-members-list">
 											{members.length > 0 && members.map ( item =>
 												<UserItem
@@ -267,7 +271,7 @@ class TaskGroup extends Component {
 						</div>
 					</div>
       			}
-		      	
+
 			</React.Fragment>
 		);
 	}
