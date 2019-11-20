@@ -21,7 +21,11 @@ class UserCard extends Component {
 				                <div className="activity-feed-user-info-card-body row">
 									  {/*TODO: Get avatar*/}
 									  
-				                    <img alt="default profile" src="https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg" className="activity-feed-user-info-card-avatar" />
+									<img 
+										alt="default profile" 
+										src={photo || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"}
+										className="activity-feed-user-info-card-avatar" 
+									/>
 									
 								    <p className="activity-feed-user-info-card-name">{`${name}`}</p>
 				                </div>

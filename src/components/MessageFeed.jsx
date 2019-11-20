@@ -33,6 +33,15 @@ class MessageFeed extends Component {
     return user;
   }
 
+  // Params
+  // members: An array for the group members 
+  // message: An object for the message
+  determineUserImage = (members, message) => {
+    let user = members.filter(m => m._id === message.sender);
+    user = user[0];
+    return user.photo;
+  }
+
   render() {
     const { feed } = this.props;
 
@@ -48,6 +57,7 @@ class MessageFeed extends Component {
                 readerid={this.state.readerId}
                 senderid={data.sender}
                 sender={ this.retrieveUsername(data.sender) }
+                image={ this.determineUserImage(feed.members, data) }
                 text={data.message}
                 dateCreated={data.dateCreated}
                 isRead={data.isRead}

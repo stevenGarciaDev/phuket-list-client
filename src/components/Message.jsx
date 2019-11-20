@@ -10,14 +10,14 @@ class Message extends Component {
   }
 
   render() {
-    const { senderid, readerid, sender, text, dateCreated, isRead } = this.props;
+    const { image, senderid, readerid, sender, text, dateCreated, isRead } = this.props;
 
     return (
       <div className="message">
         <div className="text-left row msg-header-container">
           <img
             className="post-module-profile-img"
-            src={"" || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"}
+            src={image || "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"}
             alt="Img" />
           <h2 className="msg-author">{sender}</h2>
           <p className="msg-created-at">
