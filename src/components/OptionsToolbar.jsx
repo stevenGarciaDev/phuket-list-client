@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import ReactDOM from 'react-dom';
 import Modal from 'react-responsive-modal';
 import { Form, Button } from 'react-bootstrap';
 class OptionsToolbar extends Component {

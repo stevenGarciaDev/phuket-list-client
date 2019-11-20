@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import Joi from "joi-browser";
 import { deleteUser,confirmPassword } from "../services/userService";
 import { getCurrentUser } from "../services/authService";
 
@@ -14,7 +13,7 @@ class ModalDeleteAccount extends Component {
         };
         this.onDelete = this.onDelete.bind(this);
     }
-    
+
     async onDelete() {
         // on click on confirmation button
           // get the current user
@@ -24,7 +23,7 @@ class ModalDeleteAccount extends Component {
           console.log("userDeleted", userDeleted);
           localStorage.removeItem('token');
           window.location = '/login';
-          
+
       }
 
 	inputConfirmPassword = e => {
@@ -37,7 +36,7 @@ class ModalDeleteAccount extends Component {
 
 	handleSubmit = async(e) =>  {
 		try {
-            
+
 			e.preventDefault();
             console.log(this.state.confirmPass);
             const user = getCurrentUser();
@@ -49,10 +48,10 @@ class ModalDeleteAccount extends Component {
 
                 this.onDelete();
             } else {
-                
+
             }
-				
-			
+
+
 		} catch (e) {
 			console.log("error: ", e);
 		}
@@ -62,7 +61,7 @@ class ModalDeleteAccount extends Component {
 	    return (
 	      <React.Fragment>
 	        <Form onSubmit={this.handleSubmit}>
-              <Form.Group>                
+              <Form.Group>
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control required
                 	id="password-confirm"

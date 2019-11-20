@@ -7,13 +7,10 @@ import { getCurrentUser } from "../services/authService";
 import {
 	getListItems,
 	getListItem,
-	findOrCreateTask,
-	getTaskUsers,
 	getTaskUsersLazy,
 	getRecentTaskUsers
 } from "../services/bucketListService";
 import {
-	getPublicuser,
 	getUserBasic } from "../services/userService";
 import { getRelatedBusinesses } from '../services/yelpService';
 import { getCurrentLocation } from '../services/locationService';

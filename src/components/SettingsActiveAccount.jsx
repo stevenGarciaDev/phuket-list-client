@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import Modal from 'react-responsive-modal';
-import { getCurrentUser } from "../services/authService";
-import { deleteUser } from "../services/userService";
 import ModalDeleteAccount from "./ModalDeleteAccount";
 
 class SettingsActiveAccount extends Component {
@@ -13,7 +10,7 @@ class SettingsActiveAccount extends Component {
       displayName: this.props.displayName,
       open: false
     }
-    
+
   }
 
   onOpenModal = () => {
@@ -23,7 +20,7 @@ class SettingsActiveAccount extends Component {
   onCloseModal = () => {
     this.setState({ open: false });
   };
-  
+
   // async onDelete() {
   //   // on click on confirmation button
   //   const result = window.confirm("Are you sure you want to delete your account?");

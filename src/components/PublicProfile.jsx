@@ -62,7 +62,7 @@ class PublicProfile extends Component {
 		// Get privacy status
 		this.setState({profile_isPrivate: user.data.isPrivateProfile});
 
-		if (!this.state.profile_isPrivate || (this.state.reader_id == this.state.profile_id) ) {
+		if (!this.state.profile_isPrivate || (this.state.reader_id === this.state.profile_id) ) {
 			const userBio = await getUserBioByID(this.state.profile_id);
 		    this.setState({profile_bio: userBio.data[0].bio });
 		    const userPhoto = await getUserPhotoByID(this.state.profile_id);
@@ -120,20 +120,20 @@ class PublicProfile extends Component {
                 </div>
 				<div className="public-profile-basic row nopadding">
 					<div className="col-md-12 nopadding">
-						 
+
 						<img alt="profile" src={this.state.profile_avatar} className="public-profile-avatar" />
 						<h2 className="module-title">{this.state.profile_name}</h2>
 						<div className = "widthless">
 						<small>{`${this.state.profile_bio}`}</small>
 						</div>
-						
+
 					</div>
 					<div className="col-md-12 nopadding">
-						
+
 					</div>
 				</div>
 			{/* Only loads reset of page if profile is NOT private and READER != Profile Owner */}
-				{ (!this.state.profile_isPrivate || (this.state.reader_id == this.state.profile_id) ) ? 
+				{ (!this.state.profile_isPrivate || (this.state.reader_id === this.state.profile_id) ) ?
 					(
 						<div className="row nopadding">
 							<div className="public-profile-bucket-list-module col-md-4">

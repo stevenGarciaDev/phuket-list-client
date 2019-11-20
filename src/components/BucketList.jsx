@@ -40,7 +40,7 @@ class BucketList extends Component {
     // need to pass request headers
     const response = await getListItems(user, jwt);
     const listItems = response.data[0].listItems;
-    this.setState({ listItems: listItems }); 
+    this.setState({ listItems: listItems });
   }
 
   handleAdd = e => {
@@ -79,9 +79,9 @@ class BucketList extends Component {
       // create a new list item
       const response = findOrCreateTask(user, newTaskName, jwt);
 
-      
+
       // create a new message group for that task
-     
+
       createPublicGroupChat( user._id , newTaskName);// make new group chat
 
 
@@ -96,7 +96,7 @@ class BucketList extends Component {
     } catch (ex) {
       alert("Unable to add item.");
       //this.setState({ listItems: originalList });
-    }   
+    }
   };
 
   listsort = (list,value) =>{
@@ -124,7 +124,7 @@ class BucketList extends Component {
             list.sort(function (a, b) {
               var textA = a.dateAdded;
               var textB = b.dateAdded;
-  
+
               return textB.localeCompare(textA);
             });
             //this.setState({listItems: sortedArray});
@@ -146,11 +146,11 @@ class BucketList extends Component {
     removeFromChat(item.taskName, user._id);// remove user from group chat
     createPublicGroupChat( user._id , newText);// make new group chat
 
-    
+
     response.then(result => {
       const updatedList = result.data;
       this.setState({ listItems: updatedList });
-    });    
+    });
   };
 
   handleDelete = async item => {
@@ -177,7 +177,7 @@ class BucketList extends Component {
     }
     //if (this.confirmDelete(item)) {
     //
-    //}    
+    //}
   };
 
   handleCompleted = async item => {
@@ -194,7 +194,7 @@ class BucketList extends Component {
       await toggleComplete(user, item, jwt);
     } catch (ex) {
       this.setState({ listItems: originalList });
-    }   
+    }
   };
 
   confirmDelete = item => {
@@ -204,7 +204,7 @@ class BucketList extends Component {
     if (answer) {
       return true;
     }
-    return false;   
+    return false;
   };
 
   // onChange function for Add New Task input
@@ -235,7 +235,7 @@ class BucketList extends Component {
       this.setState({listFilterSearch: searchInput})
     } else {
       this.setState({listFilterSearch: ''})
-    }  
+    }
   }
 
   async filterSort(value) {
@@ -276,7 +276,7 @@ class BucketList extends Component {
             sortedArray.sort(function (a, b) {
               var textA = a.dateAdded;
               var textB = b.dateAdded;
-  
+
               return textB.localeCompare(textA);
             });
             this.setState({listItems: sortedArray});
@@ -284,7 +284,7 @@ class BucketList extends Component {
       default:
         console.log("Sorting: invalid");
         return;
-    }   
+    }
   }
 
   setSelectedFilter(e) {
@@ -298,7 +298,7 @@ class BucketList extends Component {
   render() {
     const { user } = this.props;
     const { inputError,filter } = this.state;
-    
+
     return (
       <div>
         <div className="jumbotron text-center" id="bucket-list-jumbotron">
@@ -433,8 +433,8 @@ class BucketList extends Component {
                     <Dropdown.Item active onClick={() => { this.filterSort(1) }}value={1}>Alphabetical (descending)</Dropdown.Item>
                     :<Dropdown.Item onClick={() => { this.filterSort(1) }}value={1}>Alphabetical (descending)</Dropdown.Item>
                   }
-                    
-                    
+
+
                   </Dropdown.Menu>
                 </Dropdown>
               </div>

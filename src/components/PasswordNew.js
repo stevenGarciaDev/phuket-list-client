@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import Joi from "joi-browser";
 import { newPassword }from '../services/userService';
 
 class PasswordNew extends Component {
@@ -61,7 +60,7 @@ class PasswordNew extends Component {
 				this.setState({errorConfirmPass: "Invalid password"});
 			} else {
 				this.setState({errorOldPass: null, errorNewPass: null, errorConfirmPass: null});
-				if (this.state.newPass != this.state.confirmPass) {
+				if (this.state.newPass !== this.state.confirmPass) {
 					this.setState({errorConfirmPass: "Passwords do not match"})
 				} else {
 					const response = await newPassword(this.props.userId, this.state.oldPass, this.state.newPass);
@@ -88,7 +87,7 @@ class PasswordNew extends Component {
                 <Form.Control required
                 	id="password-old"
                 	type="password"
-                	onChange={this.inputOldPassword} 
+                	onChange={this.inputOldPassword}
                 	/>
                 {this.state.errorOldPass}
 
@@ -101,7 +100,7 @@ class PasswordNew extends Component {
                 <Form.Label>New Password</Form.Label>
                 <Form.Control required
                 	id="password-new"
-                	type="password" 
+                	type="password"
                 	onChange={this.inputNewPassword}
                 	/>
                 {this.state.errorNewPass}

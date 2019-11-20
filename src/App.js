@@ -5,7 +5,6 @@ import HomePage from './components/HomePage';
 import BucketList from './components/BucketList';
 import TaskGroup from './components/TaskGroup';
 import FlexNavbar from './components/FlexNavbar';
-import Navbar from './components/Navbar';
 import LoginForm from "./components/LoginForm";
 import Forgot from "./components/Forgot";
 import RegisterForm from "./components/RegisterForm";

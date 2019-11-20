@@ -61,7 +61,7 @@ class FlexNavbar extends Component {
 
     onMenuDropdown() {
         console.log("onMenuDropdown");
-        this.setState({ 
+        this.setState({
             displayMenu: !this.state.displayMenu
         });
     }
@@ -70,17 +70,17 @@ class FlexNavbar extends Component {
         const { displayMenu } = this.state;
         return displayMenu ? '' : 'hidden-display-item'; //"fas fa-bars fa-2x"
     }
-    
+
     render() {
         const { user } = this.props;
-        const { displayMenu, isConnectCollapsed, isAccountCollapsed } = this.state; //fas fa-times fa-2x
+        const { isConnectCollapsed, isAccountCollapsed } = this.state; //fas fa-times fa-2x
 
-        return ( 
-            <nav>         
-            
+        return (
+            <nav>
 
-                <i 
-                    id="hamburger-menu"  
+
+                <i
+                    id="hamburger-menu"
                     className=
                     {`fas fa-${!this.state.displayMenu ? 'bars fa-2x': 'times fa-2x'}`}
                     onClick={() => this.onMenuDropdown()}
@@ -89,21 +89,21 @@ class FlexNavbar extends Component {
                 {user ?
                     <div className="FlexNavbar">
                         <div className={this.hideItem()}>
-                            <NavLink 
-                                className="nav-link" to="/bucketList" 
+                            <NavLink
+                                className="nav-link" to="/bucketList"
                                 onClick={() => this.onCloseTabDropdown()}
                             >MyList <span className="sr-only">(current)</span></NavLink>
                         </div>
                         <div className={this.hideItem()}>
-                            <NavLink 
+                            <NavLink
                                 className="nav-link" to="/userActivityPage"
                                 onClick={() => this.onCloseTabDropdown()}>
                                 Activity Page
                             </NavLink>
                         </div>
                         <div className={this.hideItem()}>
-                            <div 
-                                className="nav-link toggle-bar" 
+                            <div
+                                className="nav-link toggle-bar"
                                 onClick={() => this.onTabDropdown('isConnectCollapsed')}
                                 >
                                 Connect {this.state.unreadMessages.length > 0 ?
@@ -113,14 +113,14 @@ class FlexNavbar extends Component {
                                  }
                                 <i className={`fas fa-chevron-${isConnectCollapsed ? 'up': 'down'}`}></i>
                             </div>
-                            {isConnectCollapsed && 
+                            {isConnectCollapsed &&
                                 <div className="dropdown-nav connect">
-                                    <NavLink 
-                                        className="nav-link dropdown-item" 
+                                    <NavLink
+                                        className="nav-link dropdown-item"
                                         onClick={() => this.onCloseTabDropdown()}
                                         to="/friends">Friends</NavLink>
-                                    <NavLink 
-                                        className="nav-link dropdown-item" 
+                                    <NavLink
+                                        className="nav-link dropdown-item"
                                         onClick={() => this.onCloseTabDropdown()}
                                         to="/messages">Messages {this.state.unreadMessages.length > 0 ?
                                     <span className="nav-new-message">{this.state.unreadMessages.length}</span>
@@ -131,27 +131,27 @@ class FlexNavbar extends Component {
                             }
                         </div>
                         <div className={this.hideItem()}>
-                            <div 
-                                className="nav-link toggle-bar" 
+                            <div
+                                className="nav-link toggle-bar"
                                 onClick={() => this.onTabDropdown('isAccountCollapsed')}>
                                 Account <i className={`fas fa-chevron-${isAccountCollapsed ? 'up': 'down'}`}></i>
                             </div>
-                            {isAccountCollapsed && 
+                            {isAccountCollapsed &&
                                 <div className="dropdown-nav account">
-                                    <NavLink 
-                                        className="nav-link dropdown-item" 
+                                    <NavLink
+                                        className="nav-link dropdown-item"
                                         onClick={() => this.onCloseTabDropdown()}
                                         to={`/profile/${user._id}`}>My Profile</NavLink>
-                                    <NavLink 
-                                        className="nav-link dropdown-item" 
+                                    <NavLink
+                                        className="nav-link dropdown-item"
                                         onClick={() => this.onCloseTabDropdown()}
                                         to="/myProfile">Edit Profile</NavLink>
-                                    <NavLink 
-                                        className="nav-link dropdown-item" 
+                                    <NavLink
+                                        className="nav-link dropdown-item"
                                         onClick={() => this.onCloseTabDropdown()}
                                         to="/settings">Setting</NavLink>
-                                    <NavLink 
-                                        className="nav-link" 
+                                    <NavLink
+                                        className="nav-link"
                                         onClick={() => this.onCloseTabDropdown()}
                                         to="/logout">Sign out</NavLink>
                                 </div>
@@ -160,7 +160,7 @@ class FlexNavbar extends Component {
                     </div>
                 :
                     <div className="FlexNavbar display-items">
-                        
+
                         <div className={this.hideItem()}>
                             <NavLink className="nav-link" to="/login">
                                 Login
@@ -175,9 +175,9 @@ class FlexNavbar extends Component {
                     </div>
                 }
 
-          
-           
-            </nav>     
+
+
+            </nav>
         );
     }
 }

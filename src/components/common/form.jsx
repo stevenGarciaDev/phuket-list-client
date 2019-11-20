@@ -55,7 +55,7 @@ class Form extends Component {
   handleFileChange = async (event) => {
     console.log(this.state.data,this.state.fileToUpload);
     console.log('file changed!!', event);
-      if(this.state.fileToUpload == ""){
+      if(this.state.fileToUpload === ""){
         const imageFile = event.target.files[0];
         const data = { ...this.state.data };
         data['image'] = imageFile;

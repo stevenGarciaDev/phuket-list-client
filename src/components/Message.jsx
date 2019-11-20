@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
-import { getCurrentUser } from '../services/authService';
 import { setReadState } from '../services/messageService';
 
 class Message extends Component {
   componentDidMount = async () => {
-    if (this.props.readerid != this.props.senderid ) {
+    if (this.props.readerid !== this.props.senderid ) {
       const msgupdate = await setReadState(this.props.groupId, this.props.msgId, this.props.readerid);
     }
   }
@@ -27,7 +26,7 @@ class Message extends Component {
             </Moment>
           </p>
           <p>
-            {( (senderid == readerid) ) ? '' : 
+            {( (senderid == readerid) ) ? '' :
                 ((isRead.includes(readerid)) ? '' : ('(new)'))}
           </p>
         </div>
