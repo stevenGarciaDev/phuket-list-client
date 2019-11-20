@@ -309,9 +309,7 @@ class BucketList extends Component {
               <Downshift
                 itemToString={item => (item === null ? "" : item.title)}
                 onChange={selection =>
-                  (this.state.newTaskInput = `${
-                    selection.taskName
-                  }`)
+                  ( this.setState({newTaskInput: selection.taskName}))
                 }
               >
                 {({
