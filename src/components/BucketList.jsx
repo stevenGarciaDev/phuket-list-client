@@ -27,8 +27,9 @@ class BucketList extends Component {
       listFilterSearch: '',
       listFilterItems: [],
       inputError: null,
-      filter: 3,
-      selectedFilter:''
+      filter: 2,
+      selectedFilter:'',
+      listItemsRenderType: 0 // Flag for type of tasks to render
     };
   }
 
@@ -295,9 +296,35 @@ class BucketList extends Component {
       return;
   }
 
+  taskItemRenderTypeFilter(item) {
+    try {
+      // Filter by type will be determined by this switch statement
+      switch(this.state.listItemsRenderType) {
+        case 0: // All
+          return (<ListItem key={item._id}  task={item} onDelete={this.handleDelete} onComplete={this.handleCompleted} onUpdate={this.handleUpdate}/>);
+        case 1: // Complete
+          if (item.isCompleted) {
+            return (<ListItem key={item._id}  task={item} onDelete={this.handleDelete} onComplete={this.handleCompleted} onUpdate={this.handleUpdate}/>);
+          }
+          return;
+        case 2: // Incomplete
+          if (!item.isCompleted) {
+            return (<ListItem key={item._id}  task={item} onDelete={this.handleDelete} onComplete={this.handleCompleted} onUpdate={this.handleUpdate}/>);
+          }
+          return;
+        default:
+          console.log("Sorting: invalid");
+          return;
+      }
+    } catch (e) {
+      console.log("Error: Cannot filter by task type", e)
+    }
+  }
+
+
   render() {
     const { user } = this.props;
-    const { inputError,filter } = this.state;
+    const { inputError, filter, listItemsRenderType } = this.state;
 
     return (
       <div>
@@ -403,16 +430,39 @@ class BucketList extends Component {
                         id="filter_list"
                         name="filter_list"
                         autoComplete="off"
-                        className="list-filter col-md-10"
+                        className="list-filter col-md-8 mb-1"
                         aria-describedby="inputGroup-sizing-default"
                 />
+                {/* Drop down for task type filter */}
+                <Dropdown className="col-md-2 mb-1" selectedvalue = {filter}>
+                  <Dropdown.Toggle className="btn btn-info list-filter-dropdown" variant="success" id="dropdown-basic">
+                    Show...
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu  className="col-md-2">
+                  {listItemsRenderType === 0 ?
+                    <Dropdown.Item active onClick={() => { this.setState({listItemsRenderType: 0})}} value={0}>All</Dropdown.Item>
+                    :
+                    <Dropdown.Item onClick={() => { this.setState({listItemsRenderType: 0})}} value={0}>All</Dropdown.Item>
+                  }
+                  {listItemsRenderType === 1 ?
+                    <Dropdown.Item active onClick={() => { this.setState({listItemsRenderType: 1})}} value={1}>Completed</Dropdown.Item>
+                    :
+                    <Dropdown.Item onClick={() => { this.setState({listItemsRenderType: 1})}} value={1}>Completed</Dropdown.Item>
+                  }
+                  {listItemsRenderType === 2 ?
+                    <Dropdown.Item active onClick={() => { this.setState({listItemsRenderType: 2})}} value={2}>Incomplete</Dropdown.Item>
+                    :
+                    <Dropdown.Item onClick={() => { this.setState({listItemsRenderType: 2})}} value={2}>Incomplete</Dropdown.Item>
+                  }
+                  </Dropdown.Menu>
+                </Dropdown>
 
                 {/* Drop down for filter type */}
-                <Dropdown className="col-md-2" selectedValue = {filter}>
+                <Dropdown className="col-md-2 mb-1" selectedvalue = {filter}>
                   <Dropdown.Toggle className="btn btn-info list-filter-dropdown" variant="success" id="dropdown-basic">
                     Filter by..
                   </Dropdown.Toggle>
-                  <Dropdown.Menu  >
+                  <Dropdown.Menu  className="col-md-2">
                   <Dropdown.Item disabled >Select a Filter</Dropdown.Item>
                   <Dropdown.Item divider />
                   {filter === 3?
@@ -424,12 +474,12 @@ class BucketList extends Component {
                     : <Dropdown.Item onClick={() => { this.filterSort(2) }}value={2}>Default</Dropdown.Item>
                   }
                   {filter === 0?
-                    <Dropdown.Item active onClick={() => { this.filterSort(0) }}value={0}>Alphabetical (ascending)</Dropdown.Item>
-                    :<Dropdown.Item onClick={() => { this.filterSort(0) }}value={0}>Alphabetical (ascending)</Dropdown.Item>
+                    <Dropdown.Item active onClick={() => { this.filterSort(0) }}value={0}>A &rarr; Z</Dropdown.Item>
+                    :<Dropdown.Item onClick={() => { this.filterSort(0) }}value={0}>A &rarr; Z</Dropdown.Item>
                   }
                   {filter === 1?
-                    <Dropdown.Item active onClick={() => { this.filterSort(1) }}value={1}>Alphabetical (descending)</Dropdown.Item>
-                    :<Dropdown.Item onClick={() => { this.filterSort(1) }}value={1}>Alphabetical (descending)</Dropdown.Item>
+                    <Dropdown.Item active onClick={() => { this.filterSort(1) }}value={1}>Z &rarr; A</Dropdown.Item>
+                    :<Dropdown.Item onClick={() => { this.filterSort(1) }}value={1}>Z &rarr; A</Dropdown.Item>
                   }
 
 
@@ -444,13 +494,7 @@ class BucketList extends Component {
                   <div className="col-md-12 nopadding">
                     {results.length > 0 &&
                       results.map(item => (
-                        <ListItem
-                          key={item._id}
-                          task={item}
-                          onDelete={this.handleDelete}
-                          onComplete={this.handleCompleted}
-                          onUpdate={this.handleUpdate}
-                        />
+                        this.taskItemRenderTypeFilter(item)
                       ))}
                     {results.length < 1 &&
                       <p>Sorry, nothing was found. Try a different search term.</p>
