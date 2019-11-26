@@ -4,14 +4,17 @@ import Form from "./common/form";
 import { login, authenticateGoogle } from "../services/authService";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
-
+import Modal from 'react-responsive-modal'
+import { Button } from 'react-bootstrap';
 class LoginForm extends Form {
 
   constructor(props) {
     super(props);
     this.state = {
       data: { email: "", password: "" },
-      errors: {}
+      errors: {},
+      open: false,
+      errorMsg: ''
     };
   }
 
@@ -38,6 +41,14 @@ class LoginForm extends Form {
         const errors = {...this.state.errors};
         errors.username = ex.response.data;  // display error from server
         this.setState({ errors });
+        this.onOpenModal('Invalid Username or password');
+      }
+      if (ex.response && ex.response.status === 401) {
+        const errors = {...this.state.errors};
+        errors.username = ex.response.data;  // display error from server
+        this.setState({ errors });
+        this.onOpenModal("User does not exist");
+        window.location = "/register";
       }
     }
   }
@@ -68,12 +79,27 @@ class LoginForm extends Form {
   googleError = (response) => {
     console.log(response);
   }
+  onOpenModal = (x) => {
+    this.setState({ open: true,errorMsg: x });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false });
+    this.state.data.email = '';
+    this.state.data.password = '';
+  };
 
   render() {
+    var errorMsg = this.state.errorMsg;
+    const open = this.state.open;
     return (
       <React.Fragment>
-
-
+        <Modal open={open} onClose={this.onCloseModal}>
+  <h2>{errorMsg}</h2>
+    <Button className="d-flex justify-content-start" variant="warning" type="submit" onClick={() => this.onCloseModal()}>
+                Confirm
+              </Button>
+        </Modal>
         <div className="jumbotron" id="auth-jumbotron"></div>
 
         <div className="authenticate-form">
@@ -100,6 +126,7 @@ class LoginForm extends Form {
                 cookiePolicy={'single_host_origin'}
               />
         </div>
+        
       </React.Fragment>
     );
   }
