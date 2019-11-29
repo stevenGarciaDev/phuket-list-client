@@ -33,7 +33,7 @@ class BucketList extends Component {
       selectedFilter:'',
       listItemsRenderType: 0, // Flag for type of tasks to render
       currentPage: 1,
-      pageSize: 3,
+      pageSize: 10,
       paginatedItems: []
     };
   }
