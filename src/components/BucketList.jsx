@@ -33,7 +33,7 @@ class BucketList extends Component {
       selectedFilter:'',
       listItemsRenderType: 0, // Flag for type of tasks to render
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 3,
       paginatedItems: []
     };
   }
@@ -56,12 +56,7 @@ class BucketList extends Component {
       .slice(startIndex)
       .take(pageSize)
       .value();
-    console.log("&currentPage", pageNumber);
-    console.log("&result", result);
-    return _(items)
-      .slice(startIndex)
-      .take(pageSize)
-      .value();
+    return result;
   }
 
   handleAdd = e => {
@@ -303,6 +298,8 @@ class BucketList extends Component {
       return;
   }
 
+
+
   taskItemRenderTypeFilter(item) {
     try {
       // Filter by type will be determined by this switch statement
@@ -332,11 +329,71 @@ class BucketList extends Component {
     this.setState({ currentPage: page });
   }
 
+  displayItems = (items, listFilterSearch, filterType, currentPage, pageSize) => {
+    // loop through the items and filter
+    let filteredItems = [];
+
+    console.log("listFilterSearch", listFilterSearch);
+
+    if (listFilterSearch) {
+      // Regex
+      const regex = new RegExp(`${listFilterSearch.toLowerCase()}`, 'g');
+      // filter through items
+      filteredItems = items.filter(item => item.taskName.toLowerCase().match(regex));
+
+    } else {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        switch (filterType) {
+          case 1: // Complete
+            if (item.isCompleted)
+              filteredItems.push(item);
+              break;
+          case 2: // Incomplete
+            if (!item.isCompleted)
+              filteredItems.push(item);
+              break;
+          default: // 0 is default for All
+            filteredItems.push(item);
+        }
+      }
+    }
+
+    // then paginate data and display
+    const paginatedData = this.paginateData(filteredItems, currentPage, pageSize);
+
+    return (
+      <div className="col-md-12 nopadding">
+        {paginatedData.length > 0 &&
+          paginatedData.map(item => (
+            <ListItem
+              key={item._id}
+              task={item}
+              onDelete={this.handleDelete}
+              onUpdate={this.handleUpdate}
+              onComplete={this.handleCompleted}
+            />
+          ))}
+        {paginatedData.length < 1 &&
+          <p>Sorry, nothing was found. Try a different search term.</p>
+        }
+      </div>
+    );
+  }
+
 
   render() {
     const { user } = this.props;
-    const { inputError, filter, listItemsRenderType, listItems, currentPage, pageSize } = this.state;
-    const paginatedData = this.paginateData(listItems, currentPage, pageSize);
+    const {
+      inputError,
+      filter,
+      listItemsRenderType,
+      listFilterSearch,
+      listItems,
+      currentPage,
+      pageSize
+    } = this.state;
 
     return (
       <div>
@@ -499,6 +556,12 @@ class BucketList extends Component {
                 </Dropdown>
               </div>
 
+              {
+                listItems.length > 0 &&
+                this.displayItems(listItems, listFilterSearch, listItemsRenderType, currentPage, pageSize)
+              }
+
+              {/*
               <SearchResults
                 value={this.state.listFilterSearch}
                 data={paginatedData}
@@ -514,6 +577,7 @@ class BucketList extends Component {
                   </div>
                 )}
               />
+              */}
           </ul>
           <div>
             <Pagination
