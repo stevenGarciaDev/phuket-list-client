@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ListItem from "./ListItem";
+import Pagination from "./Pagination";
 import Downshift from "downshift";
 import SearchResults from 'react-filter-search';
 import { Dropdown } from 'react-bootstrap';
@@ -14,6 +15,7 @@ import {
 import { getCurrentUser } from "../services/authService";
 import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
 import {createPublicGroupChat, updateGroupName, removeFromChat } from '../services/messageService';
+import _ from "lodash";
 
 // max length for taskName is 60 char
 class BucketList extends Component {
@@ -29,7 +31,10 @@ class BucketList extends Component {
       inputError: null,
       filter: 2,
       selectedFilter:'',
-      listItemsRenderType: 0 // Flag for type of tasks to render
+      listItemsRenderType: 0, // Flag for type of tasks to render
+      currentPage: 1,
+      pageSize: 10,
+      paginatedItems: []
     };
   }
 
@@ -41,7 +46,22 @@ class BucketList extends Component {
     // need to pass request headers
     const response = await getListItems(user, jwt);
     const listItems = response.data[0].listItems;
+    //const paginatedItems = listItems
     this.setState({ listItems: listItems });
+  }
+
+  paginateData = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    const result = _(items)
+      .slice(startIndex)
+      .take(pageSize)
+      .value();
+    console.log("&currentPage", pageNumber);
+    console.log("&result", result);
+    return _(items)
+      .slice(startIndex)
+      .take(pageSize)
+      .value();
   }
 
   handleAdd = e => {
@@ -59,19 +79,6 @@ class BucketList extends Component {
       this.setState({ inputError: `Task must be less than ${maxTaskNameLength} letters` });
       return;
     }
-
-    //const originalList = this.state.listItems;
-    // check if already have item in the list
-    //for (let item of originalList) {
-    //  if (item.taskName.toLowerCase() === newTaskName.toLowerCase()) {
-    //    this.setState({ inputError: "Unable to add duplicate" });
-    //    return;
-    //  }
-    //}
-    //let updatedList = [...this.state.listItems];
-    //const newItem = { taskName: newTaskName, isCompleted: false };
-    //updatedList.push(newItem);
-    //this.setState({ listItems: updatedList });
 
     try {
       const user = getCurrentUser();
@@ -321,10 +328,15 @@ class BucketList extends Component {
     }
   }
 
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  }
+
 
   render() {
     const { user } = this.props;
-    const { inputError, filter, listItemsRenderType } = this.state;
+    const { inputError, filter, listItemsRenderType, listItems, currentPage, pageSize } = this.state;
+    const paginatedData = this.paginateData(listItems, currentPage, pageSize);
 
     return (
       <div>
@@ -489,7 +501,7 @@ class BucketList extends Component {
 
               <SearchResults
                 value={this.state.listFilterSearch}
-                data={this.state.listItems}
+                data={paginatedData}
                 renderResults={results => (
                   <div className="col-md-12 nopadding">
                     {results.length > 0 &&
@@ -503,6 +515,14 @@ class BucketList extends Component {
                 )}
               />
           </ul>
+          <div>
+            <Pagination
+              itemsCount={this.state.listItems.length}
+              pageSize={this.state.pageSize}
+              currentPage={this.state.currentPage}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
         </div>
       </div>
     );
