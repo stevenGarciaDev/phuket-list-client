@@ -830,6 +830,17 @@ Activity Feed page
 
 
 }
+.activity-feed-Recommendation-info-card-name {
+  font-weight: bold;
+  text-align: center;
+}
+
+.activity-feed-Recommendation-info-card-Location {
+  margin: 0 !important;
+  padding: 0 15px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
 
 .activity-feed-user-info-card-bio {
   margin: 0 !important;

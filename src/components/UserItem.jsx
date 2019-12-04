@@ -16,7 +16,7 @@ class UserItem extends Component {
 
   render() {
   	const { user } = this.props;
-		console.log("user", user);
+		//console.log("user", user);
 		const { hovering } = this.state;
 
 		// console.log("user icon ? ", user.photo !== undefined);

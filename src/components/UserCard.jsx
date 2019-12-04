@@ -13,7 +13,7 @@ class UserCard extends Component {
   		return (
 			
 			<span> 
-				<div classname = "Hover-Card">
+				<div className = "Hover-Card">
 						<div  className="task-group-members-user-item-card-container">
 							<div className="task-group-members-user-item-card">
 				                <div className="activity-feed-user-info-card-bg row nopadding">
