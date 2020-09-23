@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FriendInfoItem from './FriendInfoItem';
-import AlertMessage from './AlertMessage';
+import FriendInfoItem from '../components/FriendInfoItem';
+import AlertMessage from '../components/AlertMessage';
 import {
   getPotentialFriends,
   getFriends,
@@ -80,11 +80,8 @@ class FriendsList extends Component {
     let {
       displayAlert,
       alertMessage,
-      currentView,
       potentialFriends,
-      friends,
-      filteredPotentialFriends,
-      filteredFriends
+      friends
      } = this.state;
     const currentUser = getCurrentUser();
     const emailuse = currentUser.email;
@@ -133,7 +130,7 @@ class FriendsList extends Component {
   }
 
   render() {
-    const { currentView, potentialFriends, filteredPotentialFriends, friends, filteredFriends, displayAlert, alertMessage } = this.state;
+    const { currentView, filteredPotentialFriends, friends, filteredFriends, displayAlert, alertMessage } = this.state;
     let findFriendsClass;
     let editFriendsClass;
 

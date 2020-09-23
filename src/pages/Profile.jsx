@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getCurrentUser } from "../services/authService";
 import { getUser, uploadNewProfileImage, updateProfileImage, updateProfile } from "../services/userService";
 import { getListItems } from "../services/bucketListService";
-import ImageInput from "./common/imageInput";
+import ImageInput from "../components/common/imageInput";
 
 class Profile extends Component {
 
@@ -37,7 +37,6 @@ class Profile extends Component {
   handleFileSubmit = async (e) => {
     e.preventDefault();
     const jwt = localStorage.getItem("token");
-    const { user } = this.state;
     const { image } = this.state.data;
 
     // console.log("@current user's photo is ", user.photo);
@@ -49,7 +48,7 @@ class Profile extends Component {
   }
 
   updateUserProfileImage = async (photo, jwt) => {
-    const res = await updateProfileImage(photo, jwt);
+    await updateProfileImage(photo, jwt);
   }
 
   handleBioChange = (e) => {
@@ -126,8 +125,6 @@ class Profile extends Component {
 
   render() {
     const { listItems, imageToDisplay, imageToUpload } = this.state;
-    const { image: photo } = this.state.data;
-    console.log(listItems);
 
     return (
       <div className="container">

@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import './App.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import BucketList from './components/BucketList';
-import TaskGroup from './components/TaskGroup';
+import BucketList from './pages/BucketList';
+import TaskGroup from './pages/TaskGroup';
 import FlexNavbar from './components/FlexNavbar';
-import LoginForm from "./components/LoginForm";
-import Forgot from "./components/Forgot";
-import RegisterForm from "./components/RegisterForm";
-import UserActivityPage from "./components/UserActivityPage";
-import FriendsList from "./components/FriendsList";
-import MessagePage from "./components/MessagePage";
-import Profile from "./components/Profile";
-import PublicProfile from "./components/PublicProfile";
-import Settings from "./components/Settings";
-import Logout from './components/logout';
+import LoginForm from "./pages/LoginForm";
+import Forgot from "./pages/Forgot";
+import RegisterForm from "./pages/RegisterForm";
+import UserActivityPage from "./pages/UserActivityPage";
+import FriendsList from "./pages/FriendsList";
+import MessagePage from "./pages/MessagePage";
+import Profile from "./pages/Profile";
+import PublicProfile from "./pages/PublicProfile";
+import Settings from "./pages/Settings";
+import Logout from './pages/logout';
 import NotFound from "./components/notFound";
 import ProtectedRoute from "./components/common/protectedRoute";
 import { getCurrentUser } from "./services/authService";
-import Reset from './components/Reset';
+import Reset from './pages/Reset';
 
 class App extends Component {
 

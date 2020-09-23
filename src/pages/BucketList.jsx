@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import ListItem from "./ListItem";
-import Pagination from "./Pagination";
+import ListItem from "../components/ListItem";
+import Pagination from "../components/Pagination";
 import Downshift from "downshift";
-import SearchResults from 'react-filter-search';
 import { Dropdown } from 'react-bootstrap';
 import {
   getListItems,
@@ -13,8 +12,8 @@ import {
   updateTask
 } from "../services/bucketListService";
 import { getCurrentUser } from "../services/authService";
-import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
-import {createPublicGroupChat, updateGroupName, removeFromChat } from '../services/messageService';
+import { DropDown, DropDownItem, SearchStyles } from "../components/styles/DropDown";
+import {createPublicGroupChat, removeFromChat } from '../services/messageService';
 import _ from "lodash";
 
 // max length for taskName is 60 char
@@ -291,8 +290,7 @@ class BucketList extends Component {
   }
 
   setSelectedFilter(e) {
-    console.log(e);
-    if(typeof e != null)
+    if (e != null)
       this.setState({ selectedFilter: e.target.value });
     else
       return;

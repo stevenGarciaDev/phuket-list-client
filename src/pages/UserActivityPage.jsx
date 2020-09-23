@@ -5,7 +5,7 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import {
   Link
 } from 'react-router-dom';
-import Post from './post';
+import Post from '../components/post';
 import {
   getFeedPosts
 } from '../services/postService';
@@ -24,7 +24,7 @@ import {
 import {
   retrieveMessageGroups
 } from "../services/messageService";
-import CircularProgressBar from './CircularProgressBar';
+import CircularProgressBar from '../components/CircularProgressBar';
 
 
 class UserActivityPage extends Component {

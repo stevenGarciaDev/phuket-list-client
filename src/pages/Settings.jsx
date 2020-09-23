@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import SettingDetailInput from './SettingDetailInput';
-import SettingDetailToggle from './SettingDetailToggle';
-import SettingsActiveAccount from './SettingsActiveAccount';
+import SettingDetailInput from '../components/SettingDetailInput';
+import SettingDetailToggle from '../components/SettingDetailToggle';
+import SettingsActiveAccount from '../components/SettingsActiveAccount';
 import { getCurrentUser } from '../services/authService';
 import { updateSettingDetail, getSettingtDetail } from '../services/userService';
-import PasswordNew from './PasswordNew';
+import PasswordNew from '../components/PasswordNew';
 import Modal from 'react-responsive-modal';
 import { Form, Button } from 'react-bootstrap';
 import {getCurrentLocation} from '../services/locationService';

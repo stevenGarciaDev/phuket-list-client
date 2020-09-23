@@ -1,6 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "./common/form";
+import Form from "../components/common/form";
 import { forgotPassword } from "../services/userService";
 
 class Forgot extends Form {

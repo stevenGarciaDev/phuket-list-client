@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
-import ActivityFeed from "./ActivityFeed";
-import UserItem from "./UserItem";
-import RecommendationItem from "./RecommendationItem";
+import ActivityFeed from "../components/ActivityFeed";
+import UserItem from "../components/UserItem";
+import RecommendationItem from "../components/RecommendationItem";
 import { getCurrentUser } from "../services/authService";
 import {
 	getListItems,
@@ -175,7 +175,7 @@ class TaskGroup extends Component {
 	// }
 
 	render() {
-		const { task_name, task_id, user_hastask, message, members, recommendations } = this.state;
+		const { task_name, task_id, message, members, recommendations } = this.state;
 		return (
 			<React.Fragment>
 				<div className="jumbotron task-group-jumbotron"><h1 className="shadow-text bold-text">{`"${task_name}" Group`}</h1>

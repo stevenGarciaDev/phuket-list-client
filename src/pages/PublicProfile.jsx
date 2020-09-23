@@ -5,7 +5,7 @@ import {
   Link
 } from 'react-router-dom';
 import BottomScrollListener from 'react-bottom-scroll-listener';
-import Post from './post';
+import Post from '../components/post';
 import {
 	getUserBasic, getUserBioByID, getUserPhotoByID
 } from '../services/userService';

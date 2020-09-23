@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
 
 class UserCard extends Component {
 	constructor(props) {
@@ -8,7 +7,7 @@ class UserCard extends Component {
   	}
 
   	render() {
-  		const { id, name, bio, isPrivateProfile, photo } = this.props;
+  		const { name, bio, isPrivateProfile, photo } = this.props;
 
   		return (
 			

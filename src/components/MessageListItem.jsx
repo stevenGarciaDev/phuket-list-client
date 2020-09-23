@@ -22,7 +22,7 @@ class MessageListItem extends Component {
   }
 
   render() {
-    const { messages } = this.props.group;
+    //const { messages } = this.props.group;
     const { group } = this.props;
 
     return (

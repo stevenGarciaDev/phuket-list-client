@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import MessageGroupList from './MessageGroupList';
-import MessageFeed from './MessageFeed';
-import MessageGroupForm from './MessageGroupForm';
+import MessageGroupList from '../components/MessageGroupList';
+import MessageFeed from '../components/MessageFeed';
+import MessageGroupForm from '../components/MessageGroupForm';
 import { getCurrentUser } from '../services/authService';
 import {
   createNewGroup,

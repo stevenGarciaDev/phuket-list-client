@@ -13,15 +13,14 @@ class ImageInput extends Component {
   uploadImage(e) {
     this.props.onFileChange(e);
     var imagename = this.state.imagename;
-    console.log();
-    if(typeof e.target.files !== 'undefined' ){
+    if (typeof e.target.files !== 'undefined' ){
       imagename = e.target.files[0].name;
-      this.state.imagename = imagename;
     }
     else{
       imagename = '';
-      this.state.imagename = imagename;
     }
+
+    this.setState({ imagename });
 
     const { imageToUpload } = this.props;
     console.log("imageToUpload", !imageToUpload);

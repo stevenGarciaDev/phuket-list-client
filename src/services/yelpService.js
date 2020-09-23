@@ -8,7 +8,6 @@ Make a GET request to Yelp Fusion API
 for businesses based on keyword term, longitude, latitude
 */
 export async function getRelatedBusinesses(term, latitude, longitude) {
-  let result = [];
   try {
     // check if latitude and longitude are not null
     const searchTerm = term.toLowerCase();

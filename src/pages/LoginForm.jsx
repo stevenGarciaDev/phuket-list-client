@@ -1,6 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "./common/form";
+import Form from "../components/common/form";
 import { login, authenticateGoogle } from "../services/authService";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
@@ -117,7 +117,7 @@ class LoginForm extends Form {
                 render={renderProps => (
 
                   <button className="button-google" onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                    <img className="button-google-logo" src="https://developers.google.com/identity/images/g-logo.png"/>Sign in with Google
+                    <img alt="button google logo" className="button-google-logo" src="https://developers.google.com/identity/images/g-logo.png"/>Sign in with Google
                   </button>
                 )}
                 buttonText="Login"
