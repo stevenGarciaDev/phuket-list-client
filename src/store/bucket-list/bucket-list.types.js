@@ -1,0 +1,7 @@
+const BucketListActions = {
+    ADD_LIST_ITEM: 'ADD_LIST_ITEM',
+    REMOVE_LIST_ITEM: 'REMOVE_LIST_ITEM',
+    TOGGLE_ITEM_COMPLETION_STATUS: 'TOGGLE_ITEM_COMPLETION_STATUS'
+};
+
+export default BucketListActions;

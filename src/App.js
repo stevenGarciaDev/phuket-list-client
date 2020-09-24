@@ -41,13 +41,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <FlexNavbar user={this.state.user} />
+        <FlexNavbar />
         <div className="content">
           <Switch>
             <Route path="/home" component={HomePage} />
             <ProtectedRoute
               path="/bucketList"
-              render={(props) => <BucketList user={this.state.user} {...props} /> }
+              render={(props) => <BucketList {...props} /> }
             />
             <Route path="/taskgroup/:task_id" component={TaskGroup} />
             <Route path="/profile/:user_id" component={PublicProfile} />
@@ -56,10 +56,10 @@ class App extends Component {
             <Route path="/logout" component={Logout} />
             <Route path="/Forgot" component={Forgot} />
             <Route path="/Reset/:token" component={Reset} />
-            <Route path="/userActivityPage" render={(props) => <UserActivityPage user={this.state.user} /> } />
+            <Route path="/userActivityPage" component={UserActivityPage} />
             <Route path="/friends" component={FriendsList} />
             <Route path="/messages" component={MessagePage} />
-            <Route path="/myProfile" render={(props) => <Profile user={this.state.user} /> } />
+            <Route path="/myProfile" component={Profile} />
             <Route path="/settings" component={Settings} />
             <Route path="/not-found" component={NotFound} />
             <Redirect to="/home" />
