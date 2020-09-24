@@ -96,9 +96,8 @@ class UserActivityPage extends Component {
     }
   }
 
-
   render() {
-    const { user } = this.props;
+    const { currentUser: user } = this.props;
 
     return (
       <div className="activity-feed-content">
@@ -253,6 +252,6 @@ class UserActivityPage extends Component {
 const mapStateToProps = state => ({
 	currentUser: selectCurrentUser(state),
 	selectUserToken: selectUserToken(state)
-  });
+});
   
-  export default connect(mapStateToProps)(UserActivityPage);
+export default connect(mapStateToProps)(UserActivityPage);

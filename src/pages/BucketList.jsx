@@ -365,7 +365,7 @@ class BucketList extends Component {
 
 
   render() {
-    const { user } = this.props;
+    const { currentUser: user } = this.props;
     const {
       inputError,
       filter,

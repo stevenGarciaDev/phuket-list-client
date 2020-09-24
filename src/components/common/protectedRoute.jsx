@@ -4,8 +4,8 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectCurrentUser } from '../../store/user/user.selectors';
 
-const ProtectedRoute = ({ path, component: Component, render, ...rest }) => {
-  const { currentUser } = this.props;
+const ProtectedRoute = ({ path, component: Component, render, currentUser, ...rest }) => {
+  console.log("currentUser", currentUser);
   return (
     <Route
       {...rest}

@@ -17,7 +17,6 @@ import Settings from "./pages/Settings";
 import Logout from './pages/logout';
 import NotFound from "./components/notFound";
 import ProtectedRoute from "./components/common/protectedRoute";
-import { getCurrentUser } from "./services/authService";
 import Reset from './pages/Reset';
 
 import { connect } from 'react-redux';
@@ -26,16 +25,10 @@ import { selectUserToken } from './store/user/user.selectors';
 
 class App extends Component {
 
-  state = {
-    user: ''
-  };
-
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     this.props.setUserToken(jwt);
-
-    const user = getCurrentUser();
-    if (user) this.setState({ user });
+    console.log("user token set", jwt);
   }
 
   render() {

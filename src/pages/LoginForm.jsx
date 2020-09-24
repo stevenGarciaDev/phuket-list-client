@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 import Modal from 'react-responsive-modal'
 import { Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { setUserToken } from '../store/user/user.actions';
+import { selectUserToken } from '../store/user/user.selectors';
 
 class LoginForm extends Form {
 
@@ -38,7 +40,7 @@ class LoginForm extends Form {
       const { data } = this.state;
       const { data: jwt } = await login(data.email, data.password);
       localStorage.setItem('token', jwt);
-      window.location = "/bucketList";
+      this.props.setUserToken(jwt);
     }
     catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -95,6 +97,7 @@ class LoginForm extends Form {
   };
 
   render() {
+    const { userToken } = this.props;
     var errorMsg = this.state.errorMsg;
     const open = this.state.open;
     return (
@@ -107,38 +110,45 @@ class LoginForm extends Form {
         </Modal>
         <div className="jumbotron" id="auth-jumbotron"></div>
 
-        <div className="authenticate-form">
-            <h1>Login</h1>
-            <form onSubmit={this.handleSubmit}>
-              {this.renderInput("email", "Email", "email")}
-              {this.renderInput("password", "Password", "password")}
-              {this.renderButton("Login")}
-              <Link to="/Forgot" className="auth-sub-text">Forgot password?</Link>
-            </form>
-            <hr />
-            <h5>or</h5>
-              <GoogleLogin
-                clientId="745879377205-gjmkk5rrfnnqtehsae85n23cuuqol4d5.apps.googleusercontent.com"
-                render={renderProps => (
+        { userToken ? <Redirect to="/bucketList" />
+          :
+          <div className="authenticate-form">
+              <h1>Login</h1>
+              <form onSubmit={this.handleSubmit}>
+                {this.renderInput("email", "Email", "email")}
+                {this.renderInput("password", "Password", "password")}
+                {this.renderButton("Login")}
+                <Link to="/Forgot" className="auth-sub-text">Forgot password?</Link>
+              </form>
+              <hr />
+              <h5>or</h5>
+                <GoogleLogin
+                  clientId="745879377205-gjmkk5rrfnnqtehsae85n23cuuqol4d5.apps.googleusercontent.com"
+                  render={renderProps => (
 
-                  <button className="button-google" onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                    <img alt="button google logo" className="button-google-logo" src="https://developers.google.com/identity/images/g-logo.png"/>Sign in with Google
-                  </button>
-                )}
-                buttonText="Login"
-                onSuccess={this.googleSuccess}
-                onFailure={this.googleError}
-                cookiePolicy={'single_host_origin'}
-              />
-        </div>
+                    <button className="button-google" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                      <img alt="button google logo" className="button-google-logo" src="https://developers.google.com/identity/images/g-logo.png"/>Sign in with Google
+                    </button>
+                  )}
+                  buttonText="Login"
+                  onSuccess={this.googleSuccess}
+                  onFailure={this.googleError}
+                  cookiePolicy={'single_host_origin'}
+                />
+          </div>
+      }
         
       </React.Fragment>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  userToken: selectUserToken(state)
+});
+
 const mapDispatchToProps = dispatch => ({
   setUserToken: (token) => dispatch(setUserToken(token))
 });
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
