@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import NewGroupMemberIcon from './NewGroupMemberIcon';
 import { retrieveUserId } from '../services/userService';
-import { getCurrentUser } from '../services/authService';
 import { getGroup } from '../services/messageService';
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class MessageGroupForm extends Component {
 
@@ -64,7 +66,7 @@ class MessageGroupForm extends Component {
     const { membersNameToAdd } = this.state;
 
     // ensure not adding oneself
-    const currentUser = getCurrentUser();
+    const { currentUser } = this.props;
     if (currentUser.name.toLowerCase() === membersNameToAdd.toLowerCase()) {
       const errorMessage = `${membersNameToAdd}, you are added by default.`;
       this.setState({ membersNameToAdd: "", errorMessage });
@@ -176,4 +178,8 @@ class MessageGroupForm extends Component {
   }
 }
 
-export default MessageGroupForm;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(MessageGroupForm);

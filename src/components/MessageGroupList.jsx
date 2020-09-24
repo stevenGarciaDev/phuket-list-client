@@ -12,13 +12,6 @@ class MessageGroupList extends Component {
     };
   }
 
-  componentDidMount = async () => {
-    // get message groups for this user
-    // const user = await getCurrentUser();
-    // const res = await retrieveMessageGroups(user);
-    // console.log("res is ", res);
-  }
-
   onMemberUpdate = (e) => {
     const memberNameToAdd = e.target.value;
     this.setState({ memberNameToAdd });

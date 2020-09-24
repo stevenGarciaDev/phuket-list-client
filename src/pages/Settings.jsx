@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import SettingDetailInput from '../components/SettingDetailInput';
 import SettingDetailToggle from '../components/SettingDetailToggle';
 import SettingsActiveAccount from '../components/SettingsActiveAccount';
-import { getCurrentUser } from '../services/authService';
 import { updateSettingDetail, getSettingtDetail } from '../services/userService';
 import PasswordNew from '../components/PasswordNew';
 import Modal from 'react-responsive-modal';
 import { Form, Button } from 'react-bootstrap';
 import {getCurrentLocation} from '../services/locationService';
 
+import { connect } from 'react-redux';
+import { selectCurrentUser, selectUserToken } from '../store/user/user.selectors';
+
 class Settings extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      user: getCurrentUser(),
       name: " ",
       email: " ",
       isPrivate: false,
@@ -23,64 +24,44 @@ class Settings extends Component {
     }
   }
 
-
-/////////////////
-locationOn()
-{
-  try{
-    
-  this.setState({isSyncLocation: true});
+  locationOn() {
+    try {
+      this.setState({isSyncLocation: true});
+    } catch{
+      console.log("Fail to sync location");
+    }
   }
-  catch{
-    console.log("Fail to sync location");
+
+  locationOff() {
+    this.setState({isSyncLocation : false});
   }
-  
-}
-
-locationOff()
-{
-  
-    
-// this.state.isSyncLocation = false;
-  this.setState({isSyncLocation : false});
- 
-}
-///////////////////////
-
 
   async componentDidMount() {
-    const jwt = localStorage.getItem("token");
-    const setInfo = await getSettingtDetail(this.state.user, jwt);
+    const { currentUser: user, token: jwt } = this.props;
+    const setInfo = await getSettingtDetail(user, jwt);
     console.log(setInfo.data);
-    this.setState({name: setInfo.data["name"], email: setInfo.data["email"],
-     isPrivate: setInfo.data["isPrivate"], isActive: setInfo.data["isActive"]  });
-
-
-     console.log(this.state);
+    this.setState({
+      name: setInfo.data["name"], email: setInfo.data["email"],
+      isPrivate: setInfo.data["isPrivate"], isActive: setInfo.data["isActive"]  
+    });
   }
 
   handleUpdate = (detailName, value) => {
-    console.log("detail name is ", detailName);
-    console.log("value is ", value);
-    const jwt = localStorage.getItem("token");
-    const response = updateSettingDetail(this.state.user, detailName, value, jwt);
-    console.log(response);
-
-    //this.setState({user: getCurrentUser() });
-
+    const { currentUser: user, token: jwt } = this.props;
+    updateSettingDetail(user, detailName, value, jwt);
   }
 
   shareLocation = async (e) => {
     e.preventDefault();
-    //const jwt = localStorage.getItem("token");
-    let response = await getCurrentLocation();
-    console.log("Your locatuion: " , response.coords);
+
+    await getCurrentLocation();
     this.setState({isSyncLocation : false});
   }
 
 
   render() {
     const { name, email, isPrivate, isActive } = this.state;
+    const { currentUser } = this.props;
 
     return (
       <div className="container" id="body-wrapper">
@@ -119,13 +100,11 @@ locationOff()
         <SettingsActiveAccount
           displayName="Permanently Deactive Account"
         />
-     
-       
+  
         </table>
 
         <div className="settings-module"> 
-        
-        <Button variant="primary" size="lg" block onClick={() => this.locationOn()}>
+          <Button variant="primary" size="lg" block onClick={() => this.locationOn()}>
             Sync Location
           </Button>
 
@@ -133,36 +112,33 @@ locationOff()
             <h2>Syncing Location</h2>
             <p>Are you sure you want share your location?</p>
             <Form >
-            <Button className="d-flex justify-content-start" variant="warning" type="submit" 
-           onClick={(e) => this.shareLocation(e)} >
-                  Confirm
-                </Button> 
+              <Button className="d-flex justify-content-start" variant="warning" type="submit" 
+                onClick={(e) => this.shareLocation(e)} >
+                    Confirm
+              </Button> 
             </Form>
-        </Modal>
-
+          </Modal>
         </div>
-
-        
-        
 
         <div className="settings-module">
           <h2>Security</h2>
-
           <div className="settings-module password">
             <h4 className="text-left">Password</h4>
             <p className="text-left">Choose a strong password and don't reuse it for other accounts.</p>
 
           <PasswordNew
-            userId={this.state.user._id} />  
-
+            userId={currentUser._id} />  
 
           </div>
         </div>
-
       </div>
     );
   }
-
 }
 
-export default Settings;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state),
+  selectUserToken: selectUserToken(state)
+});
+
+export default connect(mapStateToProps)(Settings);

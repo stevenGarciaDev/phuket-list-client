@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import ActivityFeed from "../components/ActivityFeed";
 import UserItem from "../components/UserItem";
 import RecommendationItem from "../components/RecommendationItem";
-import { getCurrentUser } from "../services/authService";
 import {
 	getListItems,
 	getListItem,
@@ -15,6 +14,9 @@ import {
 import { getRelatedBusinesses } from '../services/yelpService';
 import { getCurrentLocation } from '../services/locationService';
 import { getRecommendations } from '../services/recommendationService';
+
+import { connect } from 'react-redux';
+import { selectCurrentUser, selectUserToken } from '../store/user/user.selectors';
 
 class TaskGroup extends Component {
 
@@ -36,12 +38,11 @@ class TaskGroup extends Component {
 
 	async componentDidMount() {
 		// User authentication
-		const user = getCurrentUser();
-	  const jwt = localStorage.getItem("token");
+		const { currentUser: user, token: jwt } = this.props;
 
 		// Get task name
 		const response = await getListItem(this.state.task_id);
-    this.setState({task_name: response.data.taskName})
+    	this.setState({task_name: response.data.taskName});
 
 		// Find if user has task
 		const tasksresponse = await getListItems(user, jwt);
@@ -158,22 +159,6 @@ class TaskGroup extends Component {
 		return filtered.length > 0 ? filtered[0] : null;
 	}
 
-	// addTask = () => {
-	// 	try {
-	//       const user = getCurrentUser();
-	//       const jwt = localStorage.getItem("token");
-
-	//       // create a new list item
-	//       const response = findOrCreateTask(user, this.state.task_name, jwt);
-	//       response.then(result => {
-	//         this.setState({user_hastask: true});
-	//         // this.setState({message: 'This is now part of your bucket list!'})
-	//       });
-	//     } catch (ex) {
-	//       alert("Unable to add item.");
-	//     }
-	// }
-
 	render() {
 		const { task_name, task_id, message, members, recommendations } = this.state;
 		return (
@@ -275,4 +260,9 @@ class TaskGroup extends Component {
 
 }
 
-export default TaskGroup;
+const mapStateToProps = state => ({
+	currentUser: selectCurrentUser(state),
+	selectUserToken: selectUserToken(state)
+  });
+  
+  export default connect(mapStateToProps)(TaskGroup);

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { deleteUser,confirmPassword } from "../services/userService";
-import { getCurrentUser } from "../services/authService";
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class ModalDeleteAccount extends Component {
 
@@ -17,7 +19,7 @@ class ModalDeleteAccount extends Component {
     async onDelete() {
         // on click on confirmation button
           // get the current user
-          const user = getCurrentUser();
+          const { currentUser: user } = this.props;
           // call api to delete the user
           const userDeleted = await deleteUser(user._id);
           console.log("userDeleted", userDeleted);
@@ -38,20 +40,13 @@ class ModalDeleteAccount extends Component {
 		try {
 
 			e.preventDefault();
-            console.log(this.state.confirmPass);
-            const user = getCurrentUser();
-            //onsole.log(user._id);
+            const { currentUser: user } = this.props;
             const userId = user._id;
             const response = await confirmPassword(userId, this.state.confirmPass);
             console.log(response.data);
             if (response.data) {
-
-                this.onDelete();
-            } else {
-
-            }
-
-
+              this.onDelete();
+            } 
 		} catch (e) {
 			console.log("error: ", e);
 		}
@@ -81,8 +76,10 @@ class ModalDeleteAccount extends Component {
 	      </React.Fragment>
 	    );
 	}
-
-
 }
 
-export default ModalDeleteAccount;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(ModalDeleteAccount);

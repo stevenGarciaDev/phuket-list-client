@@ -11,10 +11,12 @@ import {
   toggleComplete,
   updateTask
 } from "../services/bucketListService";
-import { getCurrentUser } from "../services/authService";
 import { DropDown, DropDownItem, SearchStyles } from "../components/styles/DropDown";
 import {createPublicGroupChat, removeFromChat } from '../services/messageService';
 import _ from "lodash";
+
+import { connect } from 'react-redux';
+import { selectCurrentUser, selectUserToken } from '../store/user/user.selectors';
 
 // max length for taskName is 60 char
 class BucketList extends Component {
@@ -38,9 +40,7 @@ class BucketList extends Component {
   }
 
   async componentDidMount() {
-    // get bucket list items
-    const user = getCurrentUser();
-    const jwt = localStorage.getItem("token");
+    const { currentUser: user, token: jwt } = this.props;
 
     // need to pass request headers
     const response = await getListItems(user, jwt);
@@ -75,8 +75,7 @@ class BucketList extends Component {
     }
 
     try {
-      const user = getCurrentUser();
-      const jwt = localStorage.getItem("token");
+      const { currentUser: user, token: jwt } = this.props;
 
       // create a new list item
       const response = findOrCreateTask(user, newTaskName, jwt);
@@ -138,16 +137,12 @@ class BucketList extends Component {
   }
 
   handleUpdate = (item, newText) => {
-    const user = getCurrentUser();
-    const jwt = localStorage.getItem("token");
-
-    console.log("Itemmm: " ,item.taskName);
+    const { currentUser: user, token: jwt } = this.props;
 
     const response = updateTask(user, item, newText, jwt);
-    //updateGroupName;
+
     removeFromChat(item.taskName, user._id);// remove user from group chat
     createPublicGroupChat( user._id , newText);// make new group chat
-
 
     response.then(result => {
       const updatedList = result.data;
@@ -163,23 +158,16 @@ class BucketList extends Component {
     this.setState({ listItems: modifiedList });
 
     try {
-      const user = getCurrentUser();
-      const jwt = localStorage.getItem("token");
+      const { currentUser: user, token: jwt } = this.props;
 
       await removeTask(user, item, jwt);
 
       removeFromChat(item.taskName, user._id);// remove user from group chat
-      console.log("delte : ", item.taskName);
-      console.log("delte : ", user._id);
 
-        //const listItems = response.data;
     } catch (ex) {
       alert('Unable to delete item.');
       this.setState({ listItems: originalList });
     }
-    //if (this.confirmDelete(item)) {
-    //
-    //}
   };
 
   handleCompleted = async item => {
@@ -190,8 +178,7 @@ class BucketList extends Component {
     this.setState({ listItems: modifiedList });
 
     try {
-      const user = getCurrentUser();
-      const jwt = localStorage.getItem("token");
+      const { currentUser: user, token: jwt } = this.props;
 
       await toggleComplete(user, item, jwt);
     } catch (ex) {
@@ -215,8 +202,6 @@ class BucketList extends Component {
       return;
     }
     var newTaskInput = e.target.value;
-
-    //console.log("search input is ", newTaskInput);
 
     this.setState({newTaskInput: newTaskInput});
     newTaskInput = newTaskInput.toLowerCase(); // Lowercase for uniform search
@@ -242,7 +227,6 @@ class BucketList extends Component {
 
   async filterSort(value) {
     this.state.filter = value;
-    console.log("Sorting started...");
     var sortedArray = this.state.listItems;
     switch(value) {
       case 0: // Alphabetical sort (ascending)
@@ -265,8 +249,7 @@ class BucketList extends Component {
         return;
       case 2:
         // get bucket list items
-        const user = getCurrentUser();
-        const jwt = localStorage.getItem("token");
+        const { currentUser: user, token: jwt } = this.props;
 
         // need to pass request headers
         const response = await getListItems(user, jwt);
@@ -591,4 +574,9 @@ class BucketList extends Component {
   }
 }
 
-export default BucketList;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state),
+  token: selectUserToken(state)
+});
+
+export default connect(mapStateToProps)(BucketList);

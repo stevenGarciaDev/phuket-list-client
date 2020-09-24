@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getUnread } from '../services/messageService';
-import { getCurrentUser } from '../services/authService';
 import { getCurrentLocation } from '../services/locationService';
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class FlexNavbar extends Component {
 
@@ -21,7 +23,7 @@ class FlexNavbar extends Component {
 
     componentDidMount = async () => {
         try {
-            const user = await getCurrentUser();
+            const { currentUser: user } = this.props;
             const unread = await getUnread(user._id);
             this.setState({unreadMessages: unread});
             // Get user's current location, with permission
@@ -34,13 +36,7 @@ class FlexNavbar extends Component {
     }
 
     hasNewMessages = async () => {
-        if (this.state.unreadMessages.count > 0 ){
-            console.log("new messages")
-            return true;
-        } else {
-            console.log("no new messages")
-            return false;
-        }
+        return (this.state.unreadMessages.count > 0 ) ? true : false;
     }
 
     onTabDropdown(name) {
@@ -72,20 +68,18 @@ class FlexNavbar extends Component {
     }
 
     render() {
-        const { user } = this.props;
+        const { currentUser: user } = this.props;
         const { isConnectCollapsed, isAccountCollapsed } = this.state; //fas fa-times fa-2x
 
         return (
             <nav>
-
-
                 <i
                     id="hamburger-menu"
                     className=
                     {`fas fa-${!this.state.displayMenu ? 'bars fa-2x': 'times fa-2x'}`}
                     onClick={() => this.onMenuDropdown()}
-                    ></i>
-
+                >
+                </i>
                 {user ?
                     <div className="FlexNavbar">
                         <div className={this.hideItem()}>
@@ -182,4 +176,8 @@ class FlexNavbar extends Component {
     }
 }
 
-export default FlexNavbar;
+const mapStateToProps = state => ({
+    currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(FlexNavbar);

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Message from './Message';
 import MessageForm from './MessageForm';
-import { getCurrentUser } from '../services/authService';
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class MessageFeed extends Component {
 
@@ -17,7 +19,7 @@ class MessageFeed extends Component {
     objDiv.scrollTop = objDiv.scrollHeight;
 
     // get reader's id
-    const user = await getCurrentUser();
+    const { currentUser: user } = this.props;
     this.setState({ readerId: user._id });
   }
 
@@ -29,7 +31,7 @@ class MessageFeed extends Component {
   }
 
   retrieveReader = async () => {
-    const user = await getCurrentUser();
+    const { currentUser: user } = this.props;
     return user;
   }
 
@@ -71,4 +73,8 @@ class MessageFeed extends Component {
   }
 }
 
-export default MessageFeed;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(MessageFeed);

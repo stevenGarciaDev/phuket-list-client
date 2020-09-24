@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import MessageGroupList from '../components/MessageGroupList';
 import MessageFeed from '../components/MessageFeed';
 import MessageGroupForm from '../components/MessageGroupForm';
-import { getCurrentUser } from '../services/authService';
 import {
   createNewGroup,
   retrieveMessageGroups,
@@ -10,6 +9,9 @@ import {
   sendMessage } from '../services/messageService';
 import { getFriends } from '../services/friendshipService';
 import socketIOClient from "socket.io-client";
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class MessagePage extends Component {
 
@@ -24,7 +26,7 @@ class MessagePage extends Component {
   }
 
   componentDidMount = async () => {
-    const user = await getCurrentUser();
+    const { currentUser: user } = this.props;
     const friendsList = await getFriends(user.email);
     const res = await retrieveMessageGroups(user);
     let currentGroupFeed = [];
@@ -41,7 +43,7 @@ class MessagePage extends Component {
     try {
       let groupMembersToAdd = [ ...membersToAdd ];
       let messageGroups = [ ...this.state.messageGroups ];
-      const user = getCurrentUser();
+      const { currentUser: user } = this.props;
 
       groupMembersToAdd.push({ id: user._id });
       const newGroup = await createNewGroup(groupMembersToAdd, groupName);
@@ -73,7 +75,7 @@ class MessagePage extends Component {
 
   sendMessage = async (e, msg) => {
     e.preventDefault();
-    const user = getCurrentUser();
+    const { currentUser: user } = this.props;
     let { currentGroupFeed } = this.state;
 
     const response = sendMessage(user._id, msg, currentGroupFeed._id);
@@ -108,4 +110,8 @@ class MessagePage extends Component {
   }
 }
 
-export default MessagePage;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(MessagePage);

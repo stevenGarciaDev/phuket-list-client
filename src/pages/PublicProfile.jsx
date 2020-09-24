@@ -15,7 +15,9 @@ import {
 import {
   getListItemsByID,
 } from "../services/bucketListService";
-import { getCurrentUser } from "../services/authService";
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class PublicProfile extends Component {
 	constructor(props) {
@@ -41,8 +43,7 @@ class PublicProfile extends Component {
 
 	async componentDidMount() {
 		try {
-			// get current user
-	    	const reader = getCurrentUser();
+			const { currentUser: reader } = this.props;
 	    	if (reader) {
 	    		this.setState({reader_id: reader._id});
 	    	}
@@ -189,4 +190,8 @@ class PublicProfile extends Component {
 	}
 }
 
-export default PublicProfile;
+const mapStateToProps = state => ({
+	currentUser: selectCurrentUser(state)
+  });
+  
+  export default connect(mapStateToProps)(PublicProfile);

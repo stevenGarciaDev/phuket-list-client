@@ -5,8 +5,10 @@ import CommentIcon from './CommentIcon';
 import ReportIcon from './ReportIcon';
 import { Link } from 'react-router-dom';
 import { updateLikeInfo, getIsAppropriate,remove } from '../services/postService';
-import { getCurrentUser } from '../services/authService';
 import { getUserPhotoByID } from "../services/userService";
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class Post extends Component {
 
@@ -14,7 +16,7 @@ class Post extends Component {
     super(props);
     const { id, author, image, dateCreated, text, likes, comments } = this.props;
 
-    const user = getCurrentUser();
+    const { currentUser: user } = this.props;
     let didPrevLike = likes.indexOf(user._id) !== -1 ? true : false;
   
     this.state = {
@@ -43,7 +45,7 @@ class Post extends Component {
   }
 
   handleLike = async () => {
-    const user = getCurrentUser();
+    const { currentUser: user } = this.props;
     const { didLike, id } = this.state;
     let likes = [...this.state.likes];
     const currentLikeStatus = !didLike; // toggle
@@ -106,7 +108,7 @@ class Post extends Component {
       comments,
       displayComments
     } = this.state;
-    const userId = getCurrentUser()._id;
+    const userId = this.props.currentUser._id;
     return ( (this.state.isAppropriate) ?
       <div className="post-module">
           <div className="post-module-top row">
@@ -177,4 +179,8 @@ class Post extends Component {
   }
 };
 
-export default Post;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(Post);

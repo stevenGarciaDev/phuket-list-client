@@ -1,31 +1,15 @@
-import React, {
-  Component
-} from 'react';
+import React, { Component } from 'react';
 import BottomScrollListener from 'react-bottom-scroll-listener';
-import {
-  Link
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Post from '../components/post';
-import {
-  getFeedPosts
-} from '../services/postService';
-import {
-  getCurrentUser
-} from "../services/authService";
-import {
-  getUserBIO, getUserPHOTO
-} from "../services/userService";
-import {
-  getListItems,
-} from "../services/bucketListService";
-import {
-  getFriends
-} from "../services/friendshipService";
-import {
-  retrieveMessageGroups
-} from "../services/messageService";
+import { getFeedPosts } from '../services/postService';
+import { getUserBIO, getUserPHOTO } from "../services/userService";
+import { getListItems } from "../services/bucketListService";
+import { getFriends } from "../services/friendshipService";
+import { retrieveMessageGroups } from "../services/messageService";
 import CircularProgressBar from '../components/CircularProgressBar';
-
+import { connect } from 'react-redux';
+import { selectCurrentUser, selectUserToken } from '../store/user/user.selectors';
 
 class UserActivityPage extends Component {
 
@@ -50,10 +34,9 @@ class UserActivityPage extends Component {
   async componentDidMount() {
     // get all post from user's associated group
     // sort chronological
-    const jwt = localStorage.getItem("token");
 
     // Get user profile pic and bio
-    const user = getCurrentUser();
+    const { currentUser: user, token: jwt } = this.props;
     const userBio = await getUserBIO(user);
     this.setState({profileBio: userBio });
     const userPhoto = await getUserPHOTO(user);
@@ -267,4 +250,9 @@ class UserActivityPage extends Component {
   }
 }
 
-export default UserActivityPage;
+const mapStateToProps = state => ({
+	currentUser: selectCurrentUser(state),
+	selectUserToken: selectUserToken(state)
+  });
+  
+  export default connect(mapStateToProps)(UserActivityPage);

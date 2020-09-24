@@ -7,8 +7,10 @@ import {
   addFriend,
   acceptFriend,
   removeFriend } from "../services/friendshipService";
-import { getCurrentUser } from '../services/authService';
 import { getUserPrivacy } from '../services/userService';
+
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selectors';
 
 class FriendsList extends Component {
 
@@ -26,7 +28,7 @@ class FriendsList extends Component {
   }
 
   componentDidMount = async () => {
-    const currentUser = getCurrentUser();
+    const { currentUser } = this.props;
     const friends = await getFriends(currentUser.email);
     let potentialFriends = await getPotentialFriends(currentUser.email);
 
@@ -83,7 +85,7 @@ class FriendsList extends Component {
       potentialFriends,
       friends
      } = this.state;
-    const currentUser = getCurrentUser();
+    const { currentUser } = this.props;
     const emailuse = currentUser.email;
 
     console.log("!currentUser", currentUser);
@@ -206,4 +208,8 @@ class FriendsList extends Component {
 
 }
 
-export default FriendsList;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state)
+});
+
+export default connect(mapStateToProps)(FriendsList);
