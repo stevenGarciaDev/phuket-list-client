@@ -20,6 +20,10 @@ import ProtectedRoute from "./components/common/protectedRoute";
 import { getCurrentUser } from "./services/authService";
 import Reset from './pages/Reset';
 
+import { connect } from 'react-redux';
+import { setUserToken } from './store/user/user.actions';
+import { selectUserToken } from './store/user/user.selectors';
+
 class App extends Component {
 
   state = {
@@ -27,6 +31,9 @@ class App extends Component {
   };
 
   componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    this.props.setUserToken(jwt);
+
     const user = getCurrentUser();
     if (user) this.setState({ user });
   }
@@ -63,4 +70,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  userToken: selectUserToken(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUserToken: (token) => dispatch(setUserToken(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

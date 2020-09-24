@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 import Modal from 'react-responsive-modal'
 import { Button } from 'react-bootstrap';
+
+import { connect } from 'react-redux';
+import { setUserToken } from '../store/user/user.actions';
+
 class LoginForm extends Form {
 
   constructor(props) {
@@ -64,6 +68,7 @@ class LoginForm extends Form {
     // Call the server
     try {
       const { data: jwt } = await authenticateGoogle(name, email, password);
+      this.props.setUserToken(jwt);
       localStorage.setItem('token', jwt);
       window.location = "/bucketList";
     }
@@ -95,10 +100,10 @@ class LoginForm extends Form {
     return (
       <React.Fragment>
         <Modal open={open} onClose={this.onCloseModal}>
-  <h2>{errorMsg}</h2>
-    <Button className="d-flex justify-content-start" variant="warning" type="submit" onClick={() => this.onCloseModal()}>
-                Confirm
-              </Button>
+          <h2>{errorMsg}</h2>
+          <Button className="d-flex justify-content-start" variant="warning" type="submit" onClick={() => this.onCloseModal()}>
+            Confirm
+          </Button>
         </Modal>
         <div className="jumbotron" id="auth-jumbotron"></div>
 
@@ -132,4 +137,8 @@ class LoginForm extends Form {
   }
 }
 
-export default LoginForm;
+const mapDispatchToProps = dispatch => ({
+  setUserToken: (token) => dispatch(setUserToken(token))
+});
+
+export default connect(null, mapDispatchToProps)(LoginForm);

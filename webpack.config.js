@@ -13,5 +13,6 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  devtool: "souce-map"
 }

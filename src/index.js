@@ -8,11 +8,15 @@ import 'font-awesome/css/font-awesome.css';
 // import MyBucketList from './pages/MyBucketList';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
    document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

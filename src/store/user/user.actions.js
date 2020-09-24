@@ -1,3 +1,6 @@
-export const UserActionTypes = {
-    SET_CURRENT_USER: 'SET_CURRENT_USER'
-};
+import { UserActionTypes } from './user.types';
+
+export const setUserToken = token => ({
+    type: UserActionTypes.SET_USER_TOKEN,
+    payload: token
+});

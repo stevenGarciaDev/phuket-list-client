@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { getCurrentUser } from "../services/authService";
 import { getUser, uploadNewProfileImage, updateProfileImage, updateProfile } from "../services/userService";
 import { getListItems } from "../services/bucketListService";
 import ImageInput from "../components/common/imageInput";
+
+import { connect } from 'react-redux';
+import { selectUserToken, selectCurrentUser } from '../store/user/user.selectors';
 
 class Profile extends Component {
 
@@ -20,10 +22,10 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    const currentUser = await getCurrentUser();
+    const { currentUser, token } = this.props;
+
     const user = await getUser(currentUser._id);
-    const jwt = localStorage.getItem("token");
-    const response = await getListItems(currentUser, jwt);
+    const response = await getListItems(currentUser, token);
     const listItems = response.data[0].listItems;
 
     this.setState({ user: user.data, imageToDisplay: user.data.photo, bio: user.data.bio, listItems: listItems });
@@ -36,10 +38,9 @@ class Profile extends Component {
 
   handleFileSubmit = async (e) => {
     e.preventDefault();
-    const jwt = localStorage.getItem("token");
+    const { token: jwt } = this.props;
     const { image } = this.state.data;
 
-    // console.log("@current user's photo is ", user.photo);
     if (image !== "") {
       const photoResponse = await uploadNewProfileImage(image, jwt);
       this.setState({ imageToDisplay: photoResponse, imageToUpload: false });
@@ -58,11 +59,10 @@ class Profile extends Component {
 
   handleBioUpdate = async () => {
     this.toggleEdit();
-    console.log("bio update ..");
+ 
     const { user, bio } = this.state;
-    const jwt = localStorage.getItem("token");
-    const UIResponse = await updateProfile(user, bio, jwt);
-    console.log("The UIResponse is", UIResponse);
+    const { token: jwt } = this.props;
+    await updateProfile(user, bio, jwt);
   }
 
   handleFileChange = async (event) => {
@@ -70,21 +70,20 @@ class Profile extends Component {
       const imageFile = event.target.files[0];
       const data = { ...this.state.data };
       data['image'] = imageFile;
-      console.log("imageToUpload", !this.state.imageToUpload);
+
       this.setState({ data: data, imageToUpload: true });
     }
     else
     {
       const data = { ...this.state.data };
       data['image'] = '';
-      console.log("imageToUpload", !this.state.imageToUpload);
+
       this.setState({ data: data, imageToUpload: false});
     }
   }
 
   displayEditOption = () => {
-    // get current user from jwt,
-    const currentUser = getCurrentUser();
+    const { currentUser } = this.props;
     // get user that profile belongs to
     const { user, isEditing } = this.state;
 
@@ -188,7 +187,11 @@ class Profile extends Component {
       </div>
     );
   }
-
 }
 
-export default Profile;
+const mapStateToProps = state => ({
+  currentUser: selectCurrentUser(state),
+  token: selectUserToken(state)
+});
+
+export default connect(mapStateToProps)(Profile);
