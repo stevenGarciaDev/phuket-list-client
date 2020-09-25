@@ -2,6 +2,11 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "../components/common/form";
 import { register } from "../services/userService";
+import { Redirect } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { setUserToken } from '../store/user/user.actions';
+import { selectUserToken } from '../store/user/user.selectors';
 
 class RegisterForm extends Form {
 
@@ -32,8 +37,9 @@ class RegisterForm extends Form {
     try {
       const { data } = this.state;
       const response = await register(data);
-      localStorage.setItem('token', response.headers['x-auth-token']);
-      window.location = "/bucketList";
+      const token = response.headers['x-auth-token'];
+      localStorage.setItem('token', token);
+      this.props.setUserToken(token)
     }
     catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -45,22 +51,37 @@ class RegisterForm extends Form {
   };
 
   render() {
+    const { userToken } = this.props;
     return (
-      <React.Fragment>
-        <div className="jumbotron" id="auth-jumbotron"></div>
+      <div>
+        {
+          userToken ? <Redirect to="/bucketList" />
+          :
+          <React.Fragment>
+            <div className="jumbotron" id="auth-jumbotron"></div>
 
-        <div className="authenticate-form">
-          <h1>Register</h1>
-          <form onSubmit={this.handleSubmit}>
-            {this.renderInput("name", "Full Name")}
-            {this.renderInput("email", "Email", "email")}
-            {this.renderInput("password", "Password", "password")}
-            {this.renderButton("Register")}
-          </form>
-        </div>
-      </React.Fragment>
+            <div className="authenticate-form">
+              <h1>Register</h1>
+              <form onSubmit={this.handleSubmit}>
+                {this.renderInput("name", "Full Name")}
+                {this.renderInput("email", "Email", "email")}
+                {this.renderInput("password", "Password", "password")}
+                {this.renderButton("Register")}
+              </form>
+            </div>
+          </React.Fragment>
+      }
+      </div>
     );
   }
 }
 
-export default RegisterForm;
+const mapStateToProps = state => ({
+  userToken: selectUserToken(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUserToken: (token) => dispatch(setUserToken(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
